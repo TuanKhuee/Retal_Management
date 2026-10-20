@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_blank" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100%;margin:0;padding:0;background-color:#f9f9ff;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"outline":"#777587","inverse-surface":"#293040","on-tertiary-fixed-variant":"#3f465c","surface-container-high":"#e1e8fd","surface-container":"#e9edff","on-secondary-fixed-variant":"#5c4300","surface-dim":"#d3daef","secondary-fixed":"#ffdf9f","on-tertiary-container":"#d4dbf5","on-tertiary-fixed":"#131b2e","error":"#ba1a1a","surface":"#f9f9ff","tertiary-fixed":"#dae2fd","on-surface":"#141b2b","on-secondary":"#ffffff","on-background":"#141b2b","on-primary-fixed-variant":"#3323cc","primary-fixed-dim":"#c3c0ff","surface-container-lowest":"#ffffff","tertiary-container":"#586076","on-secondary-container":"#6f5100","secondary-fixed-dim":"#f9bd22","on-error-container":"#93000a","surface-container-highest":"#dce2f7","secondary":"#795900","on-error":"#ffffff","tertiary-fixed-dim":"#bec6e0","inverse-on-surface":"#edf0ff","surface-variant":"#dce2f7","outline-variant":"#c7c4d8","tertiary":"#41485e","surface-container-low":"#f1f3ff","on-primary":"#ffffff","primary":"#3525cd","primary-container":"#4f46e5","background":"#f9f9ff","on-secondary-fixed":"#261a00","on-tertiary":"#ffffff","inverse-primary":"#c3c0ff","secondary-container":"#ffc329","on-primary-fixed":"#0f0069","on-primary-container":"#dad7ff","on-surface-variant":"#464555","error-container":"#ffdad6","primary-fixed":"#e2dfff","surface-bright":"#f9f9ff","surface-tint":"#4d44e3"},borderRadius:{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},spacing:{"space-xs":"0.25rem","margin":"1rem","gutter":"1rem","space-md":"0.75rem","space-2xl":"2rem","space-xl":"1.5rem","space-lg":"1rem","space-sm":"0.5rem"},fontFamily:{"body-base":["Inter"],"caption":["Inter"],"body-sm-medium":["Inter"],"title-md":["Inter"],"title-sm":["Inter"],"body-base-medium":["Inter"],"body-sm":["Inter"],"tabular-amount":["Inter"],"display":["Inter"]},fontSize:{"body-base":["16px",{"lineHeight":"24px","letterSpacing":"0em","fontWeight":"400"}],"caption":["12px",{"lineHeight":"16px","letterSpacing":"0.01em","fontWeight":"500"}],"body-sm-medium":["14px",{"lineHeight":"20px","letterSpacing":"0em","fontWeight":"500"}],"title-md":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"600"}],"title-sm":["20px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}],"body-base-medium":["16px",{"lineHeight":"24px","letterSpacing":"0em","fontWeight":"500"}],"body-sm":["14px",{"lineHeight":"20px","letterSpacing":"0em","fontWeight":"400"}],"tabular-amount":["16px",{"lineHeight":"24px","letterSpacing":"0em","fontWeight":"600"}],"display":["32px",{"lineHeight":"40px","letterSpacing":"-0.02em","fontWeight":"700"}]}}}};</script></head><body class="bg-surface font-body-base text-body-base text-on-surface min-h-screen flex flex-col pt-safe pb-safe"><main class="flex-1 flex flex-col relative w-full bg-surface"><div class="flex flex-col w-full relative select-none overflow-hidden pb-8">
+<!-- Top Utility Bar: Brand pill & Skip action -->
+<div class="w-full flex items-center justify-between px-margin pt-4 pb-2 z-20">
+<div class="flex items-center gap-2 bg-surface-container-high/80 px-3 py-1.5 rounded-full shadow-sm">
+<span class="material-symbols-outlined text-primary text-[18px]" style="font-variation-settings: 'FILL' 1;">bedtime</span>
+<span class="font-caption text-caption text-primary tracking-wide font-semibold uppercase">MoonLight</span>
+</div>
+<button class="flex items-center gap-1 font-body-sm-medium text-body-sm-medium text-tertiary px-3 py-2 rounded-lg hover:bg-surface-container active:scale-95 transition-all" id="skipBtn">
+<span>Bỏ qua</span>
+<span class="material-symbols-outlined text-[18px]">east</span>
+</button>
+</div>
+<!-- Carousel Viewport & Content Container -->
+<div class="relative w-full px-margin mt-1">
+<!-- Nocturnal Illustration Card -->
+<div class="relative w-full rounded-2xl overflow-hidden shadow-lg bg-inverse-surface aspect-[16/10] flex items-center justify-center">
+<!-- Direct Warm Illustration Embed -->
+<img alt="MoonLight nocturnal houses with glowing windows and crescent moon" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1ViYP29aN2T55CClf3voiqmPRCQdgWD61n9x32Zp6SNsJbHzXCbzpbQdNlvHKYqESIAatC_9t5D36sz1ZPhW4QrKzEFG5rbdD3_LbZXRChLr2aA6DjXuEM0wTo747GaEMThC7_7O-E6-DIy5EE349jZjF54RY-CrLbrF-oLkuB1bts73rsotv2lT7uW4y7Y5VJl6Q_P2YDJQKsidpAJEuG2JGncukRLU9EBVhaAbn-Q"/>
+<!-- Ambient Glow and Floating Accent Badges based on active state -->
+<div class="absolute bottom-3 left-3 bg-inverse-surface/85 backdrop-blur-md px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-md" id="badgeTag">
+<span class="material-symbols-outlined text-secondary-fixed text-[16px]" id="badgeIcon">bolt</span>
+<span class="font-caption text-caption text-inverse-on-surface" id="badgeText">AI quét số công tơ chính xác</span>
+</div>
+<div class="absolute top-3 right-3 bg-surface-container-lowest/90 backdrop-blur-md px-2.5 py-1 rounded-full flex items-center gap-1 shadow-sm">
+<span class="w-2 h-2 rounded-full bg-secondary-fixed-dim animate-ping"></span>
+<span class="font-caption text-caption text-on-surface font-semibold" id="stepCounter">1 / 3</span>
+</div>
+</div>
+<!-- Dynamic Slides Presentation -->
+<div class="mt-6 flex flex-col items-center text-center px-2">
+<!-- Slide 1 -->
+<div class="slide-item flex flex-col items-center transition-all duration-300" id="slide-0">
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-high text-primary font-caption text-caption mb-3">
+<span class="material-symbols-outlined text-[15px]" style="font-variation-settings: 'FILL' 1;">photo_camera</span>
+<span>Công nghệ OCR nhận diện số</span>
+</div>
+<h1 class="font-title-md text-title-md text-on-surface tracking-tight mb-2">Tính tiền tự động</h1>
+<p class="font-body-base text-body-base text-on-surface-variant max-w-sm">Chốt chỉ số điện nước bằng ảnh chụp, tự động nhân đơn giá lũy tiến chuẩn xác từng kilowatt, từng mét khối.</p>
+</div>
+<!-- Slide 2 -->
+<div class="slide-item hidden flex-col items-center transition-all duration-300 opacity-0 scale-95" id="slide-1">
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-high text-primary font-caption text-caption mb-3">
+<span class="material-symbols-outlined text-[15px]" style="font-variation-settings: 'FILL' 1;">qr_code_scanner</span>
+<span>Thanh toán VietQR 24/7</span>
+</div>
+<h1 class="font-title-md text-title-md text-on-surface tracking-tight mb-2">Hóa đơn minh bạch</h1>
+<p class="font-body-base text-body-base text-on-surface-variant max-w-sm">Gửi phiếu thu qua Zalo và App trong nháy mắt. Người thuê chỉ cần quét VietQR là gạch nợ tức thì, không sợ nhầm lẫn.</p>
+</div>
+<!-- Slide 3 -->
+<div class="slide-item hidden flex-col items-center transition-all duration-300 opacity-0 scale-95" id="slide-2">
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-high text-primary font-caption text-caption mb-3">
+<span class="material-symbols-outlined text-[15px]" style="font-variation-settings: 'FILL' 1;">handyman</span>
+<span>Tiếp nhận &amp; Xử lý thời gian thực</span>
+</div>
+<h1 class="font-title-md text-title-md text-on-surface tracking-tight mb-2">Báo sự cố dễ dàng</h1>
+<p class="font-body-base text-body-base text-on-surface-variant max-w-sm">Khách chụp nhanh thiết bị hỏng gửi chủ nhà. Tiến độ thợ sửa, chi phí minh bạch được cập nhật trực tiếp trên ứng dụng.</p>
+</div>
+</div>
+<!-- Pagination Dots -->
+<div class="flex items-center justify-center gap-2 mt-6">
+<button aria-label="Slide 1" class="dot-indicator h-2 w-8 bg-primary-container rounded-full transition-all duration-300" onclick="goToSlide(0)"></button>
+<button aria-label="Slide 2" class="dot-indicator h-2 w-2 bg-outline-variant rounded-full transition-all duration-300" onclick="goToSlide(1)"></button>
+<button aria-label="Slide 3" class="dot-indicator h-2 w-2 bg-outline-variant rounded-full transition-all duration-300" onclick="goToSlide(2)"></button>
+</div>
+</div>
+<!-- Bottom Interactive CTA Panel -->
+<div class="w-full px-margin mt-8 flex flex-col gap-3.5">
+<!-- Primary Flow Button -->
+<button class="w-full h-12 bg-primary-container hover:bg-primary text-on-primary font-body-sm-medium text-body-sm-medium rounded-lg flex items-center justify-center gap-2 shadow-md active:scale-[0.99] transition-all" id="nextBtn">
+<span id="nextBtnLabel">Tiếp theo</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+<!-- Alternative Roles & Login Links -->
+<div class="flex flex-col items-center gap-2 pt-1">
+<button class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors flex items-center gap-1 py-1" onclick="handleAuthAction('login')">
+<span>Đã có tài khoản?</span>
+<span class="font-body-sm-medium text-body-sm-medium text-primary">Đăng nhập ngay</span>
+</button>
+<div class="w-full flex items-center justify-center gap-3 my-0.5">
+<span class="h-[1px] w-12 bg-surface-container-highest"></span>
+<span class="font-caption text-caption text-outline">hoặc</span>
+<span class="h-[1px] w-12 bg-surface-container-highest"></span>
+</div>
+<button class="w-full py-2.5 px-4 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-body-sm-medium text-body-sm-medium flex items-center justify-center gap-2 transition-all active:scale-[0.99]" onclick="handleAuthAction('activate')">
+<span class="material-symbols-outlined text-secondary text-[18px]">key</span>
+<span>Khách thuê được mời? Kích hoạt tài khoản</span>
+</button>
+</div>
+</div>
+<!-- Micro Feedback Toast -->
+<div class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface px-4 py-2.5 rounded-full font-caption text-caption shadow-xl opacity-0 pointer-events-none transition-all duration-200 z-50 flex items-center gap-2" id="toastFeedback">
+<span class="material-symbols-outlined text-secondary-fixed text-[16px]">info</span>
+<span id="toastMsg">Chuyển hướng màn hình...</span>
+</div>
+</div>
+<script>
+  let currentSlide = 0;
+  const totalSlides = 3;
+
+  const slideBadges = [
+    { icon: 'bolt', text: 'AI quét số công tơ chính xác' },
+    { icon: 'receipt_long', text: 'Tự động gửi hóa đơn & QR' },
+    { icon: 'verified', text: 'Minh bạch tiến độ sửa chữa' }
+  ];
+
+  function showToast(msg) {
+    const toast = document.getElementById('toastFeedback');
+    const toastText = document.getElementById('toastMsg');
+    toastText.textContent = msg;
+    toast.classList.remove('opacity-0', 'pointer-events-none');
+    toast.classList.add('opacity-100');
+    setTimeout(() => {
+      toast.classList.add('opacity-0', 'pointer-events-none');
+      toast.classList.remove('opacity-100');
+    }, 1800);
+  }
+
+  function goToSlide(index) {
+    currentSlide = index;
+    const dots = document.querySelectorAll('.dot-indicator');
+    const badgeIcon = document.getElementById('badgeIcon');
+    const badgeText = document.getElementById('badgeText');
+    const stepCounter = document.getElementById('stepCounter');
+    const nextBtnLabel = document.getElementById('nextBtnLabel');
+
+    for (let i = 0; i < totalSlides; i++) {
+      const slide = document.getElementById(`slide-${i}`);
+      const dot = dots[i];
+      if (i === index) {
+        slide.classList.remove('hidden');
+        setTimeout(() => {
+          slide.classList.remove('opacity-0', 'scale-95');
+          slide.classList.add('opacity-100', 'scale-100');
+        }, 10);
+        dot.className = 'dot-indicator h-2 w-8 bg-primary-container rounded-full transition-all duration-300';
+      } else {
+        slide.classList.add('opacity-0', 'scale-95');
+        slide.classList.remove('opacity-100', 'scale-100');
+        slide.classList.add('hidden');
+        dot.className = 'dot-indicator h-2 w-2 bg-outline-variant rounded-full transition-all duration-300';
+      }
+    }
+
+    badgeIcon.textContent = slideBadges[index].icon;
+    badgeText.textContent = slideBadges[index].text;
+    stepCounter.textContent = `${index + 1} / ${totalSlides}`;
+
+    if (index === totalSlides - 1) {
+      nextBtnLabel.textContent = 'Bắt đầu ngay';
+    } else {
+      nextBtnLabel.textContent = 'Tiếp theo';
+    }
+  }
+
+  document.getElementById('nextBtn').addEventListener('click', () => {
+    if (currentSlide < totalSlides - 1) {
+      goToSlide(currentSlide + 1);
+    } else {
+      showToast('Đang mở màn hình Đăng ký / Bắt đầu...');
+    }
+  });
+
+  document.getElementById('skipBtn').addEventListener('click', () => {
+    goToSlide(totalSlides - 1);
+  });
+
+  function handleAuthAction(type) {
+    if (type === 'login') {
+      showToast('Chuyển tới Đăng nhập tài khoản');
+    } else {
+      showToast('Chuyển tới Kích hoạt căn hộ dành cho khách');
+    }
+  }
+</script></main></body></html>

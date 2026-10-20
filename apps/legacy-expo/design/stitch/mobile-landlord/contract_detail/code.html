@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_stack" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "tertiary-fixed-dim": "#bec6e0", "inverse-on-surface": "#edf0ff", "outline-variant": "#c7c4d8", "surface-container-high": "#e1e8fd", "secondary": "#795900", "primary-container": "#4f46e5", "primary": "#3525cd", "surface-tint": "#4d44e3", "error-container": "#ffdad6", "surface-container": "#e9edff", "tertiary-fixed": "#dae2fd", "on-tertiary": "#ffffff", "on-secondary-fixed": "#261a00", "primary-fixed-dim": "#c3c0ff", "inverse-primary": "#c3c0ff", "on-tertiary-fixed": "#131b2e", "surface-bright": "#f9f9ff", "secondary-fixed-dim": "#f9bd22", "on-surface": "#141b2b", "on-error-container": "#93000a", "error": "#ba1a1a", "on-secondary": "#ffffff", "surface-dim": "#d3daef", "on-secondary-container": "#6f5100", "background": "#f9f9ff", "on-primary-fixed-variant": "#3323cc", "on-tertiary-container": "#d4dbf5", "surface": "#f9f9ff", "on-error": "#ffffff", "on-background": "#141b2b", "tertiary-container": "#586076", "outline": "#777587", "on-primary-container": "#dad7ff", "primary-fixed": "#e2dfff", "surface-container-low": "#f1f3ff", "tertiary": "#41485e", "surface-variant": "#dce2f7", "on-surface-variant": "#464555", "surface-container-highest": "#dce2f7", "on-tertiary-fixed-variant": "#3f465c", "on-primary": "#ffffff", "on-primary-fixed": "#0f0069", "inverse-surface": "#293040", "secondary-fixed": "#ffdf9f", "surface-container-lowest": "#ffffff", "secondary-container": "#ffc329", "on-secondary-fixed-variant": "#5c4300" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-lg": "1rem", "space-md": "0.75rem", "space-2xl": "2rem", "space-xl": "1.5rem", "space-xs": "0.25rem", "margin": "1rem", "space-sm": "0.5rem", "gutter": "1rem" }, "fontFamily": { "tabular-amount": ["Inter"], "body-base": ["Inter"], "title-sm": ["Inter"], "body-sm": ["Inter"], "caption": ["Inter"], "body-sm-medium": ["Inter"], "body-base-medium": ["Inter"], "display": ["Inter"], "title-md": ["Inter"] }, "fontSize": { "tabular-amount": ["16px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "600" }], "body-base": ["16px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "400" }], "title-sm": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "body-sm": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }], "caption": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500" }], "body-sm-medium": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "500" }], "body-base-medium": ["16px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "500" }], "display": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "title-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" }] } } } }</script><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface font-body-base text-body-base text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 inset-x-0 z-50 bg-surface/85 backdrop-blur-xl pt-safe shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-margin flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-xs min-w-0 flex-1"><button aria-label="Quay lại" class="w-11 h-11 -ml-2 flex items-center justify-center rounded-full text-on-surface hover:bg-surface-container transition-colors focus:outline-none" onclick="history.back()"><span class="material-symbols-outlined text-[24px]">arrow_back</span></button><img alt="MoonLight App Icon rounded square with Indigo background and warm yellow crescent moon with soft glow and ambient stars" class="h-8 w-auto object-contain flex-shrink-0 hidden sm:block" src="https://lh3.googleusercontent.com/aida/AEtjO1X6FMmk6JSaZQmOIvx8La3OenuEUIsxkTvM688a-HNZutd5_qEzw0NHRwSDXcBBTP2V4lTHcxBXHfzwK3QhCcykDbOvup-Zb8tyg0ApSkuQ0ChMrHe3CkJyECSxQr_KFgO9vlP7w8NWpBUXJsuOHWDbTIPksDaMPc3cIOGrnVc3lUcxGETgPilki8i7CorC9M9afjaccSdij7UYeJ9QITEWM4qLhTtdj-QMzKFNRPKg"/><h1 class="font-title-sm text-title-sm text-on-surface truncate ml-1">Chi Tiet Phong</h1></div><div class="flex items-center gap-space-xs flex-shrink-0"><button class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface-variant hover:text-on-surface focus:outline-none"><span class="material-symbols-outlined text-[22px]">more_vert</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full relative">
+<!-- Top Decorative Ambient Aura -->
+<div class="h-28 bg-gradient-to-b from-primary-fixed/40 via-surface-container/20 to-transparent absolute top-0 inset-x-0 -z-10 pointer-events-none"></div>
+<!-- Main Scrollable Contract Details Container -->
+<div class="flex flex-col gap-space-md p-margin pb-32">
+<!-- Overview Hero Card -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col gap-space-sm relative overflow-hidden">
+<div class="absolute right-0 top-0 w-24 h-24 bg-primary-fixed/30 rounded-bl-full pointer-events-none"></div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="font-caption text-caption text-primary tracking-wider uppercase">Đang hiệu lực</span>
+</div>
+<div class="bg-surface-container px-2.5 py-0.5 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-on-surface-variant text-[14px]">event_repeat</span>
+<span class="font-caption text-caption text-on-surface-variant">Còn 5 tháng</span>
+</div>
+</div>
+<div class="flex items-baseline justify-between mt-1">
+<div>
+<h2 class="font-title-sm text-title-sm text-on-surface font-semibold">Phòng 204</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">MoonLight Riverside · HD-2024-082</p>
+</div>
+<div class="text-right">
+<span class="font-tabular-amount text-tabular-amount text-primary block">4.500.000 ₫</span>
+<span class="font-caption text-caption text-on-surface-variant">/ tháng</span>
+</div>
+</div>
+<!-- Compact Progress Line for Contract Duration -->
+<div class="mt-2 flex flex-col gap-1.5">
+<div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary-container h-full rounded-full" style="width: 58.3%;"></div>
+</div>
+<div class="flex justify-between font-caption text-caption text-on-surface-variant">
+<span>01/08/2024</span>
+<span>Hạn: 31/07/2025 (12 tháng)</span>
+</div>
+</div>
+<!-- Quick Metrics Grid -->
+<div class="grid grid-cols-2 gap-space-sm mt-2 pt-space-sm border-t-0 bg-surface-container-low rounded-lg p-space-sm">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-primary flex-shrink-0">
+<span class="material-symbols-outlined text-[18px]">calendar_month</span>
+</div>
+<div>
+<div class="font-caption text-caption text-on-surface-variant">Kỳ thanh toán</div>
+<div class="font-body-sm-medium text-body-sm-medium text-on-surface">Ngày 05 mỗi tháng</div>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-secondary-fixed/50 flex items-center justify-center text-secondary flex-shrink-0">
+<span class="material-symbols-outlined text-[18px]">lock</span>
+</div>
+<div>
+<div class="font-caption text-caption text-on-surface-variant">Tiền cọc giữ chỗ</div>
+<div class="font-body-sm-medium text-body-sm-medium text-on-surface font-tabular-amount">4.500.000 ₫</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Tenant & Room Quick Profile Card -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<img class="w-12 h-12 rounded-full object-cover" data-alt="A candid profile photo of a modern Vietnamese male tenant smiling gently in natural ambient light with soft bokeh indoor background, wearing navy casual apparel" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDSQAj7gWhjwcH1EKLkHtQsFGsh7iyUqXstGWN_XQdHit2Pmd1XoKsqJf8178C3UF0p4r6t7YKzM8s_VLq_l5SaL8jQrA6ltVsD9F8jlOGnXbX2pLc1VteoWgM4O4EJNYjd1b7ZJWZPO_Ab5Rq0HeY7Bz6XY4F7ATwvQ7Gi0IbUxjb-1k2yr8KcfXkKUPG1wGTFaBxlCoJ4OXTrivvNUknSJReaRaLxSxexMlgXG8"/>
+<div>
+<div class="font-body-base-medium text-body-base-medium text-on-surface">Nguyễn Văn An</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">0912 ••• 849 · CCCD đã định danh</div>
+</div>
+</div>
+<button aria-label="Gọi điện" class="w-10 h-10 rounded-full bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">call</span>
+</button>
+</div>
+<!-- Applied Utility Rates -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<h3 class="font-body-base-medium text-body-base-medium text-on-surface font-semibold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">tune</span>
+          Dịch vụ &amp; Biểu phí
+        </h3>
+<span class="font-caption text-caption text-on-surface-variant">Theo chỉ số thực tế</span>
+</div>
+<div class="flex flex-col gap-2.5 mt-1">
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-surface-container-low">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full bg-secondary-fixed flex items-center justify-center text-secondary-container">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">bolt</span>
+</div>
+<div>
+<div class="font-body-sm-medium text-body-sm-medium text-on-surface">Điện sinh hoạt</div>
+<div class="font-caption text-caption text-on-surface-variant">Đồng hồ công tơ riêng</div>
+</div>
+</div>
+<span class="font-tabular-amount text-tabular-amount text-on-surface">3.500 ₫ <span class="font-caption text-caption text-on-surface-variant font-normal">/ kWh</span></span>
+</div>
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-surface-container-low">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full bg-tertiary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">water_drop</span>
+</div>
+<div>
+<div class="font-body-sm-medium text-body-sm-medium text-on-surface">Nước máy sinh hoạt</div>
+<div class="font-caption text-caption text-on-surface-variant">Đồng hồ kiểm định</div>
+</div>
+</div>
+<span class="font-tabular-amount text-tabular-amount text-on-surface">25.000 ₫ <span class="font-caption text-caption text-on-surface-variant font-normal">/ m³</span></span>
+</div>
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-surface-container-low">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-[18px]">wifi</span>
+</div>
+<div>
+<div class="font-body-sm-medium text-body-sm-medium text-on-surface">Dịch vụ chung</div>
+<div class="font-caption text-caption text-on-surface-variant">Wifi Mesh, rác, dọn dẹp</div>
+</div>
+</div>
+<span class="font-tabular-amount text-tabular-amount text-on-surface">150.000 ₫ <span class="font-caption text-caption text-on-surface-variant font-normal">/ tháng</span></span>
+</div>
+</div>
+</div>
+<!-- Price Revision History (Lịch sử đổi giá) -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<h3 class="font-body-base-medium text-body-base-medium text-on-surface font-semibold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">history_edu</span>
+          Lịch sử điều chỉnh giá thuê
+        </h3>
+<span class="font-caption text-caption bg-surface-container px-2 py-0.5 rounded-full text-on-surface-variant">2 lần</span>
+</div>
+<!-- Timeline -->
+<div class="flex flex-col relative pl-4 mt-2 gap-4">
+<!-- Vertical connector line -->
+<div class="absolute left-1.5 top-2 bottom-2 w-0.5 bg-surface-container-highest"></div>
+<!-- History Item 2 (Latest) -->
+<div class="relative flex items-start gap-3">
+<div class="w-3.5 h-3.5 rounded-full bg-primary ring-4 ring-surface-container-lowest -ml-5 mt-1 flex-shrink-0"></div>
+<div class="flex-1 bg-surface-container-low p-space-sm rounded-lg">
+<div class="flex items-center justify-between">
+<span class="font-caption text-caption text-primary font-semibold">Lần 2 · 01/02/2025</span>
+<span class="font-tabular-amount text-tabular-amount text-on-surface">4.500.000 ₫</span>
+</div>
+<p class="font-caption text-caption text-on-surface-variant mt-1">Lắp thêm máy giặt riêng Inverter (+300.000 ₫/tháng theo phụ lục thỏa thuận).</p>
+</div>
+</div>
+<!-- History Item 1 (Base) -->
+<div class="relative flex items-start gap-3">
+<div class="w-3.5 h-3.5 rounded-full bg-outline-variant ring-4 ring-surface-container-lowest -ml-5 mt-1 flex-shrink-0"></div>
+<div class="flex-1 bg-surface-container-low p-space-sm rounded-lg">
+<div class="flex items-center justify-between">
+<span class="font-caption text-caption text-on-surface-variant font-medium">Lần 1 · 01/08/2024</span>
+<span class="font-tabular-amount text-tabular-amount text-on-surface-variant">4.200.000 ₫</span>
+</div>
+<p class="font-caption text-caption text-on-surface-variant mt-1">Khởi điểm ký kết hợp đồng 12 tháng ban đầu.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Contract Documents & Attachments -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col gap-space-sm">
+<h3 class="font-body-base-medium text-body-base-medium text-on-surface font-semibold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">folder_open</span>
+        Hồ sơ hợp đồng &amp; Chữ ký
+      </h3>
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-10 h-10 rounded-lg bg-error-container text-error flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[24px]">picture_as_pdf</span>
+</div>
+<div class="min-w-0 flex-1">
+<div class="font-body-sm-medium text-body-sm-medium text-on-surface truncate">HopDongThue_P204_KyTen.pdf</div>
+<div class="font-caption text-caption text-on-surface-variant">2.4 MB · Ký số 01/08/2024</div>
+</div>
+</div>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container text-primary font-caption text-caption hover:bg-surface-container-high transition-colors flex items-center gap-1 flex-shrink-0 ml-2">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span>Xem file</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Persistent Bottom Action Trigger (When sheet is minimized) -->
+<div class="fixed bottom-0 inset-x-0 p-margin bg-surface/90 backdrop-blur-md z-40 hidden flex items-center justify-between" id="sticky-open-bar">
+<div class="flex flex-col">
+<span class="font-caption text-caption text-on-surface-variant">Giá đang áp dụng</span>
+<span class="font-tabular-amount text-tabular-amount text-primary">4.500.000 ₫/tháng</span>
+</div>
+<button class="h-11 px-6 rounded-lg bg-primary-container text-on-primary font-body-sm-medium text-body-sm-medium flex items-center gap-2 shadow-md" id="btn-reopen-sheet">
+<span class="material-symbols-outlined text-[18px]">price_change</span>
+<span>Đổi giá thuê</span>
+</button>
+</div>
+<!-- ========================================================================= -->
+<!-- PRICE REVISION BOTTOM SHEET MODAL (Giao diện Điều Chỉnh Giá Thuê Phòng 204) -->
+<!-- ========================================================================= -->
+<!-- Backdrop Layer -->
+<div class="fixed inset-0 bg-inverse-surface/40 backdrop-blur-xs z-50 transition-opacity duration-300" id="sheet-backdrop"></div>
+<!-- Bottom Sheet Surface -->
+<div class="fixed inset-x-0 bottom-0 z-50 bg-surface-container-lowest rounded-t-[28px] shadow-2xl flex flex-col max-h-[777px] overflow-y-auto transform transition-transform duration-300" id="price-revision-sheet">
+<!-- Drag Handle & Sheet Header -->
+<div class="sticky top-0 bg-surface-container-lowest pt-3 pb-2 px-margin flex flex-col items-center z-10">
+<div class="w-12 h-1.5 rounded-full bg-surface-container-highest mb-3"></div>
+<div class="w-full flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">currency_exchange</span>
+</div>
+<div>
+<h2 class="font-title-sm text-title-sm text-on-surface font-semibold">Cập nhật giá thuê phòng 204</h2>
+<p class="font-caption text-caption text-on-surface-variant">HĐ #HD-2024-082 · Khách thuê: Nguyễn Văn An</p>
+</div>
+</div>
+<button aria-label="Đóng bảng điều chỉnh" class="w-9 h-9 rounded-full bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant transition-colors" id="btn-close-sheet">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+</div>
+<!-- Sheet Content Body -->
+<div class="px-margin pt-2 pb-8 flex flex-col gap-space-lg">
+<!-- Current vs New Price Comparison Banner -->
+<div class="p-3.5 rounded-xl bg-surface-container-low flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-caption text-caption text-on-surface-variant">Giá đang áp dụng</span>
+<span class="font-tabular-amount text-tabular-amount text-on-surface">4.500.000 ₫</span>
+</div>
+<div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</div>
+<div class="flex flex-col text-right">
+<span class="font-caption text-caption text-primary font-medium">Giá đề xuất mới</span>
+<span class="font-tabular-amount text-tabular-amount text-primary font-bold" id="preview-new-price">4.800.000 ₫</span>
+</div>
+</div>
+<!-- Currency Input Control -->
+<div class="flex flex-col gap-1.5">
+<label class="font-body-sm-medium text-body-sm-medium text-on-surface flex items-center justify-between">
+<span>Giá thuê mới đề xuất (₫/tháng)</span>
+<span class="font-caption text-caption text-primary bg-primary-fixed px-2 py-0.5 rounded-full font-semibold" id="delta-badge">Tăng +300.000 ₫ (+6.7%)</span>
+</label>
+<div class="relative flex items-center">
+<input class="w-full h-12 pl-4 pr-16 rounded-xl bg-surface-container font-tabular-amount text-title-sm text-on-surface focus:outline-none focus:bg-surface-container-lowest focus:ring-0 shadow-inner" id="input-rental-price" placeholder="Nhập giá mới..." type="text" value="4.800.000"/>
+<span class="absolute right-4 font-body-sm text-body-sm text-on-surface-variant pointer-events-none">VNĐ</span>
+</div>
+</div>
+<!-- Effective Month Period & Reason Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md">
+<!-- Effective Billing Period -->
+<div class="flex flex-col gap-1.5">
+<label class="font-body-sm-medium text-body-sm-medium text-on-surface">Áp dụng từ kỳ hóa đơn</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3.5 text-on-surface-variant text-[20px] pointer-events-none">event</span>
+<select class="w-full h-12 pl-10 pr-10 rounded-xl bg-surface-container font-body-sm text-body-sm text-on-surface appearance-none focus:outline-none focus:bg-surface-container-lowest">
+<option selected="" value="04-2025">Tháng 04/2025 (Kỳ tiếp theo)</option>
+<option value="05-2025">Tháng 05/2025</option>
+<option value="06-2025">Tháng 06/2025</option>
+<option value="custom">Chọn ngày kích hoạt riêng...</option>
+</select>
+<span class="material-symbols-outlined absolute right-3.5 text-on-surface-variant text-[20px] pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- Reason Dropdown -->
+<div class="flex flex-col gap-1.5">
+<label class="font-body-sm-medium text-body-sm-medium text-on-surface">Lý do điều chỉnh</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3.5 text-on-surface-variant text-[20px] pointer-events-none">edit_note</span>
+<select class="w-full h-12 pl-10 pr-10 rounded-xl bg-surface-container font-body-sm text-body-sm text-on-surface appearance-none focus:outline-none focus:bg-surface-container-lowest">
+<option value="furniture">Thêm thiết bị nội thất (Tủ lạnh / Máy sấy)</option>
+<option selected="" value="renewal">Thỏa thuận gia hạn hợp đồng mới</option>
+<option value="market_rate">Điều chỉnh theo mặt bằng giá khu vực</option>
+<option value="other">Thỏa thuận riêng giữa hai bên</option>
+</select>
+<span class="material-symbols-outlined absolute right-3.5 text-on-surface-variant text-[20px] pointer-events-none">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Automated Tenant Notification & Annex Addendum Toggle -->
+<div class="p-3.5 rounded-xl bg-surface-container-low flex items-start justify-between gap-3">
+<div class="flex items-start gap-3">
+<div class="w-9 h-9 rounded-full bg-secondary-fixed flex items-center justify-center text-secondary-container mt-0.5 flex-shrink-0">
+<span class="material-symbols-outlined text-[20px]">outgoing_mail</span>
+</div>
+<div>
+<div class="font-body-sm-medium text-body-sm-medium text-on-surface font-semibold">Tự động gửi thông báo điều chỉnh</div>
+<div class="font-caption text-caption text-on-surface-variant mt-0.5">Hệ thống tạo sẵn dự thảo Phụ lục Hợp đồng số PL-02 gửi Zalo/App cho khách ký online.</div>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer mt-1 flex-shrink-0">
+<input checked="" class="sr-only peer" id="toggle-annex" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-surface-container-lowest after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</div>
+<!-- Human Note / Reassurance Box -->
+<div class="flex items-center gap-2 px-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px] text-primary">info</span>
+<span class="font-caption text-caption">Giá mới sẽ bắt đầu tính từ kỳ hóa đơn phát hành ngày 01/04/2025.</span>
+</div>
+<!-- Action Buttons -->
+<div class="flex items-center gap-space-sm pt-1">
+<button class="h-12 px-5 rounded-lg bg-surface-container text-on-surface font-body-sm-medium text-body-sm-medium hover:bg-surface-container-high transition-colors" id="btn-cancel-action">
+          Để sau
+        </button>
+<button class="flex-1 h-12 rounded-lg bg-primary-container hover:bg-primary text-on-primary font-body-sm-medium text-body-sm-medium flex items-center justify-center gap-2 shadow-md transition-colors active:scale-[0.99]" id="btn-confirm-price">
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+<span>Xác nhận đổi giá</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Interactive JavaScript for Sheet Interaction & Instant Calculation -->
+<script>
+    (function() {
+      const sheet = document.getElementById('price-revision-sheet');
+      const backdrop = document.getElementById('sheet-backdrop');
+      const closeBtn = document.getElementById('btn-close-sheet');
+      const cancelBtn = document.getElementById('btn-cancel-action');
+      const confirmBtn = document.getElementById('btn-confirm-price');
+      const stickyBar = document.getElementById('sticky-open-bar');
+      const reopenBtn = document.getElementById('btn-reopen-sheet');
+      const priceInput = document.getElementById('input-rental-price');
+      const previewNewPrice = document.getElementById('preview-new-price');
+      const deltaBadge = document.getElementById('delta-badge');
+
+      const BASE_PRICE = 4500000;
+
+      function closeSheet() {
+        sheet.classList.add('translate-y-full');
+        backdrop.classList.add('opacity-0', 'pointer-events-none');
+        backdrop.classList.remove('opacity-100');
+        setTimeout(() => {
+          backdrop.classList.add('hidden');
+          stickyBar.classList.remove('hidden');
+        }, 300);
+      }
+
+      function openSheet() {
+        backdrop.classList.remove('hidden');
+        setTimeout(() => {
+          sheet.classList.remove('translate-y-full');
+          backdrop.classList.remove('opacity-0', 'pointer-events-none');
+          backdrop.classList.add('opacity-100');
+          stickyBar.classList.add('hidden');
+        }, 10);
+      }
+
+      closeBtn.addEventListener('click', closeSheet);
+      cancelBtn.addEventListener('click', closeSheet);
+      backdrop.addEventListener('click', closeSheet);
+      reopenBtn.addEventListener('click', openSheet);
+
+      // Price input calculation listener
+      priceInput.addEventListener('input', function(e) {
+        let rawVal = e.target.value.replace(/\D/g, '');
+        if (!rawVal) rawVal = "0";
+        let numVal = parseInt(rawVal, 10);
+        let formatted = numVal.toLocaleString('vi-VN');
+        e.target.value = formatted;
+        previewNewPrice.textContent = formatted + ' ₫';
+
+        let diff = numVal - BASE_PRICE;
+        if (diff > 0) {
+          let percent = ((diff / BASE_PRICE) * 100).toFixed(1);
+          deltaBadge.textContent = 'Tăng +' + diff.toLocaleString('vi-VN') + ' ₫ (+' + percent + '%)';
+          deltaBadge.className = 'font-caption text-caption text-primary bg-primary-fixed px-2 py-0.5 rounded-full font-semibold';
+        } else if (diff < 0) {
+          let percent = ((Math.abs(diff) / BASE_PRICE) * 100).toFixed(1);
+          deltaBadge.textContent = 'Giảm -' + Math.abs(diff).toLocaleString('vi-VN') + ' ₫ (-' + percent + '%)';
+          deltaBadge.className = 'font-caption text-caption text-secondary bg-secondary-fixed px-2 py-0.5 rounded-full font-semibold';
+        } else {
+          deltaBadge.textContent = 'Không đổi';
+          deltaBadge.className = 'font-caption text-caption text-on-surface-variant bg-surface-container px-2 py-0.5 rounded-full font-medium';
+        }
+      });
+
+      confirmBtn.addEventListener('click', function() {
+        confirmBtn.innerHTML = '<span class="material-symbols-outlined text-[20px] animate-spin">refresh</span> Đang lưu phụ lục...';
+        setTimeout(() => {
+          confirmBtn.innerHTML = '<span class="material-symbols-outlined text-[20px]">task_alt</span> Đã hoàn tất!';
+          confirmBtn.classList.replace('bg-primary-container', 'bg-tertiary-container');
+          setTimeout(() => {
+            closeSheet();
+            confirmBtn.innerHTML = '<span class="material-symbols-outlined text-[20px]">check_circle</span> Xác nhận đổi giá';
+            confirmBtn.classList.replace('bg-tertiary-container', 'bg-primary-container');
+          }, 800);
+        }, 900);
+      });
+    })();
+  </script>
+</div></main></body></html>

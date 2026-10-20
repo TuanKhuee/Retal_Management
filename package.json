@@ -1,0 +1,19 @@
+{
+  "name": "moonlight-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "MoonLight - Nền tảng Quản lý Nhà trọ & Căn hộ Dịch vụ Monorepo",
+  "scripts": {
+    "build": "pnpm --recursive run build",
+    "lint": "pnpm --recursive run lint",
+    "test": "pnpm --filter ./apps/api run test",
+    "typecheck": "pnpm --recursive run typecheck",
+    "dev:api": "pnpm --filter ./apps/api run start:dev",
+    "dev:landlord": "pnpm --filter ./apps/landlord-pwa run dev",
+    "dev:tenant": "pnpm --filter ./apps/tenant-zalo run dev"
+  },
+  "packageManager": "pnpm@12.14.0",
+  "devDependencies": {
+    "typescript": "^5.7.0"
+  }
+}

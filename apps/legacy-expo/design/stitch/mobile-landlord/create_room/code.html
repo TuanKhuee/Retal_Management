@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_stack" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "tertiary-fixed-dim": "#bec6e0", "inverse-on-surface": "#edf0ff", "outline-variant": "#c7c4d8", "surface-container-high": "#e1e8fd", "secondary": "#795900", "primary-container": "#4f46e5", "primary": "#3525cd", "surface-tint": "#4d44e3", "error-container": "#ffdad6", "surface-container": "#e9edff", "tertiary-fixed": "#dae2fd", "on-tertiary": "#ffffff", "on-secondary-fixed": "#261a00", "primary-fixed-dim": "#c3c0ff", "inverse-primary": "#c3c0ff", "on-tertiary-fixed": "#131b2e", "surface-bright": "#f9f9ff", "secondary-fixed-dim": "#f9bd22", "on-surface": "#141b2b", "on-error-container": "#93000a", "error": "#ba1a1a", "on-secondary": "#ffffff", "surface-dim": "#d3daef", "on-secondary-container": "#6f5100", "background": "#f9f9ff", "on-primary-fixed-variant": "#3323cc", "on-tertiary-container": "#d4dbf5", "surface": "#f9f9ff", "on-error": "#ffffff", "on-background": "#141b2b", "tertiary-container": "#586076", "outline": "#777587", "on-primary-container": "#dad7ff", "primary-fixed": "#e2dfff", "surface-container-low": "#f1f3ff", "tertiary": "#41485e", "surface-variant": "#dce2f7", "on-surface-variant": "#464555", "surface-container-highest": "#dce2f7", "on-tertiary-fixed-variant": "#3f465c", "on-primary": "#ffffff", "on-primary-fixed": "#0f0069", "inverse-surface": "#293040", "secondary-fixed": "#ffdf9f", "surface-container-lowest": "#ffffff", "secondary-container": "#ffc329", "on-secondary-fixed-variant": "#5c4300" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-lg": "1rem", "space-md": "0.75rem", "space-2xl": "2rem", "space-xl": "1.5rem", "space-xs": "0.25rem", "margin": "1rem", "space-sm": "0.5rem", "gutter": "1rem" }, "fontFamily": { "tabular-amount": ["Inter"], "body-base": ["Inter"], "title-sm": ["Inter"], "body-sm": ["Inter"], "caption": ["Inter"], "body-sm-medium": ["Inter"], "body-base-medium": ["Inter"], "display": ["Inter"], "title-md": ["Inter"] }, "fontSize": { "tabular-amount": ["16px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "600" }], "body-base": ["16px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "400" }], "title-sm": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "body-sm": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }], "caption": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500" }], "body-sm-medium": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "500" }], "body-base-medium": ["16px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "500" }], "display": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "title-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" }] } } } }</script><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface font-body-base text-body-base text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 inset-x-0 z-50 bg-surface/85 backdrop-blur-xl pt-safe shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-margin flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-xs min-w-0 flex-1"><button aria-label="Quay lại" class="w-11 h-11 -ml-2 flex items-center justify-center rounded-full text-on-surface hover:bg-surface-container transition-colors focus:outline-none" onclick="history.back()"><span class="material-symbols-outlined text-[24px]">arrow_back</span></button><img alt="MoonLight App Icon rounded square with Indigo background and warm yellow crescent moon with soft glow and ambient stars" class="h-8 w-auto object-contain flex-shrink-0 hidden sm:block" src="https://lh3.googleusercontent.com/aida/AEtjO1X6FMmk6JSaZQmOIvx8La3OenuEUIsxkTvM688a-HNZutd5_qEzw0NHRwSDXcBBTP2V4lTHcxBXHfzwK3QhCcykDbOvup-Zb8tyg0ApSkuQ0ChMrHe3CkJyECSxQr_KFgO9vlP7w8NWpBUXJsuOHWDbTIPksDaMPc3cIOGrnVc3lUcxGETgPilki8i7CorC9M9afjaccSdij7UYeJ9QITEWM4qLhTtdj-QMzKFNRPKg"/><h1 class="font-title-sm text-title-sm text-on-surface truncate ml-1">Chi Tiet Phong</h1></div><div class="flex items-center gap-space-xs flex-shrink-0"><button class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface-variant hover:text-on-surface focus:outline-none"><span class="material-symbols-outlined text-[22px]">more_vert</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full pb-safe">
+<!-- Interactive Header Banner / Delight Note -->
+<div class="px-margin pt-space-md pb-space-sm">
+<div class="bg-surface-container rounded-xl p-space-md shadow-sm relative overflow-hidden flex items-start gap-space-md">
+<div class="w-10 h-10 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center flex-shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">magic_button</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="font-body-base-medium text-body-base-medium text-on-surface">Khởi tạo dãy trọ thần tốc</span>
+<span class="bg-primary text-on-primary font-caption text-caption px-space-xs py-0.5 rounded-full uppercase tracking-wider">Tiết kiệm 85% giờ</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Tạo tự động hàng loạt danh sách phòng kèm tiện ích chuẩn chỉ trong 30 giây.</p>
+</div>
+</div>
+</div>
+<!-- Segmented Tab Switcher -->
+<div class="px-margin py-space-xs">
+<div class="bg-surface-container-high p-1 rounded-xl flex items-center gap-1 shadow-inner">
+<button class="flex-1 py-2.5 px-3 rounded-lg font-body-sm-medium text-body-sm-medium flex items-center justify-center gap-1.5 transition-all duration-200 bg-surface-container-lowest text-primary shadow-sm" id="tab-bulk-btn" onclick="switchMode('bulk')">
+<span class="material-symbols-outlined text-[18px]">dynamic_feed</span>
+<span>Tạo hàng loạt (Bulk)</span>
+<span class="w-2 h-2 rounded-full bg-secondary-container ml-0.5"></span>
+</button>
+<button class="flex-1 py-2.5 px-3 rounded-lg font-body-sm-medium text-body-sm-medium flex items-center justify-center gap-1.5 transition-all duration-200 text-on-surface-variant hover:text-on-surface" id="tab-single-btn" onclick="switchMode('single')">
+<span class="material-symbols-outlined text-[18px]">meeting_room</span>
+<span>Tạo từng phòng lẻ</span>
+</button>
+</div>
+</div>
+<!-- MODE A: BULK GENERATOR CONTAINER -->
+<div class="flex flex-col gap-space-lg px-margin mt-space-md" id="bulk-generator-section">
+<!-- Visual Preview Showcase Card -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">format_list_numbered</span>
+</div>
+<h2 class="font-title-sm text-title-sm text-on-surface">Quy tắc sinh mã phòng</h2>
+</div>
+<span class="font-caption text-caption text-on-surface-variant bg-surface-container px-2.5 py-1 rounded-full">Tự động hóa</span>
+</div>
+<!-- Prefix & Floor Config Grid -->
+<div class="grid grid-cols-2 gap-space-md">
+<div class="flex flex-col gap-1.5">
+<label class="font-caption text-caption text-on-surface-variant font-medium">Tiền tố phòng</label>
+<div class="relative flex items-center">
+<input class="w-full h-12 px-3 rounded-lg bg-surface-container-low text-on-surface font-body-base-medium text-body-base-medium focus:outline-none focus:bg-surface-container-lowest shadow-sm placeholder-outline" id="input-prefix" oninput="updateRoomPreview()" placeholder="Ví dụ: P. hoặc A-" type="text" value="P."/>
+<span class="absolute right-3 font-caption text-caption text-outline">Ký tự đầu</span>
+</div>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-caption text-caption text-on-surface-variant font-medium">Số phòng / Tầng</label>
+<div class="relative flex items-center">
+<select class="w-full h-12 px-3 rounded-lg bg-surface-container-low text-on-surface font-body-base-medium text-body-base-medium appearance-none focus:outline-none focus:bg-surface-container-lowest shadow-sm cursor-pointer" id="select-rooms-per-floor" onchange="updateRoomPreview()">
+<option value="4">4 phòng</option>
+<option value="6">6 phòng</option>
+<option selected="" value="8">8 phòng (01 -&gt; 08)</option>
+<option value="10">10 phòng</option>
+<option value="12">12 phòng</option>
+</select>
+<span class="material-symbols-outlined text-outline absolute right-3 pointer-events-none text-[20px]">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Floors Selection -->
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<label class="font-caption text-caption text-on-surface-variant font-medium">Các tầng cần tạo</label>
+<button class="font-caption text-caption text-primary hover:underline" onclick="selectAllFloors()" type="button">Chọn tất cả</button>
+</div>
+<div class="grid grid-cols-4 gap-2">
+<label class="floor-chip cursor-pointer select-none">
+<input checked="" class="sr-only peer floor-checkbox" onchange="updateRoomPreview()" type="checkbox" value="1"/>
+<div class="py-2 px-1 text-center rounded-lg bg-surface-container-low text-on-surface peer-checked:bg-primary-container peer-checked:text-on-primary transition-all shadow-sm">
+<span class="block font-body-sm-medium text-body-sm-medium">Tầng 1</span>
+<span class="block font-caption text-caption opacity-80 mt-0.5">101 - 108</span>
+</div>
+</label>
+<label class="floor-chip cursor-pointer select-none">
+<input checked="" class="sr-only peer floor-checkbox" onchange="updateRoomPreview()" type="checkbox" value="2"/>
+<div class="py-2 px-1 text-center rounded-lg bg-surface-container-low text-on-surface peer-checked:bg-primary-container peer-checked:text-on-primary transition-all shadow-sm">
+<span class="block font-body-sm-medium text-body-sm-medium">Tầng 2</span>
+<span class="block font-caption text-caption opacity-80 mt-0.5">201 - 208</span>
+</div>
+</label>
+<label class="floor-chip cursor-pointer select-none">
+<input class="sr-only peer floor-checkbox" onchange="updateRoomPreview()" type="checkbox" value="3"/>
+<div class="py-2 px-1 text-center rounded-lg bg-surface-container-low text-on-surface peer-checked:bg-primary-container peer-checked:text-on-primary transition-all shadow-sm">
+<span class="block font-body-sm-medium text-body-sm-medium">Tầng 3</span>
+<span class="block font-caption text-caption opacity-80 mt-0.5">301 - 308</span>
+</div>
+</label>
+<label class="floor-chip cursor-pointer select-none">
+<input class="sr-only peer floor-checkbox" onchange="updateRoomPreview()" type="checkbox" value="4"/>
+<div class="py-2 px-1 text-center rounded-lg bg-surface-container-low text-on-surface peer-checked:bg-primary-container peer-checked:text-on-primary transition-all shadow-sm">
+<span class="block font-body-sm-medium text-body-sm-medium">Tầng 4</span>
+<span class="block font-caption text-caption opacity-80 mt-0.5">401 - 408</span>
+</div>
+</label>
+</div>
+</div>
+<!-- Live Generated Chips Preview -->
+<div class="bg-surface-container-low rounded-xl p-space-md flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-secondary text-[18px]">visibility</span>
+<span class="font-body-sm-medium text-body-sm-medium text-on-surface">Xem trước danh sách</span>
+</div>
+<span class="font-caption text-caption bg-secondary-fixed text-on-secondary-fixed font-semibold px-2 py-0.5 rounded-full" id="preview-total-badge">Tổng: 16 phòng</span>
+</div>
+<div class="flex flex-wrap gap-1.5 max-h-28 overflow-y-auto pt-1" id="preview-chips-container">
+<!-- Populated by JS -->
+</div>
+</div>
+</div>
+<!-- Default Pricing & Service Parameters -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">payments</span>
+</div>
+<div>
+<h2 class="font-title-sm text-title-sm text-on-surface">Đơn giá niêm yết áp dụng chung</h2>
+<p class="font-caption text-caption text-on-surface-variant">Có thể tinh chỉnh riêng cho từng phòng sau khi tạo</p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-space-md">
+<!-- Monthly Rent -->
+<div class="flex flex-col gap-1.5 col-span-2 sm:col-span-1">
+<label class="font-caption text-caption text-on-surface-variant font-medium">Giá thuê cơ bản (Tháng)</label>
+<div class="relative flex items-center">
+<input class="w-full h-12 pl-3 pr-10 rounded-lg bg-surface-container-low text-on-surface font-tabular-amount text-tabular-amount focus:outline-none focus:bg-surface-container-lowest shadow-sm" type="text" value="4.000.000"/>
+<span class="absolute right-3 font-body-sm text-body-sm text-outline font-semibold">₫</span>
+</div>
+</div>
+<!-- Room Deposit -->
+<div class="flex flex-col gap-1.5 col-span-2 sm:col-span-1">
+<label class="font-caption text-caption text-on-surface-variant font-medium">Tiền cọc giữ phòng</label>
+<div class="relative flex items-center">
+<input class="w-full h-12 pl-3 pr-16 rounded-lg bg-surface-container-low text-on-surface font-tabular-amount text-tabular-amount focus:outline-none focus:bg-surface-container-lowest shadow-sm" type="text" value="4.000.000"/>
+<span class="absolute right-3 font-caption text-caption text-primary font-medium bg-surface-container px-1.5 py-0.5 rounded">1 tháng</span>
+</div>
+</div>
+<!-- Room Area -->
+<div class="flex flex-col gap-1.5">
+<label class="font-caption text-caption text-on-surface-variant font-medium">Diện tích trung bình</label>
+<div class="relative flex items-center">
+<input class="w-full h-12 pl-3 pr-10 rounded-lg bg-surface-container-low text-on-surface font-tabular-amount text-tabular-amount focus:outline-none focus:bg-surface-container-lowest shadow-sm" type="number" value="25"/>
+<span class="absolute right-3 font-body-sm text-body-sm text-outline">m²</span>
+</div>
+</div>
+<!-- Max Occupants -->
+<div class="flex flex-col gap-1.5">
+<label class="font-caption text-caption text-on-surface-variant font-medium">Số người tối đa</label>
+<div class="relative flex items-center">
+<input class="w-full h-12 pl-3 pr-12 rounded-lg bg-surface-container-low text-on-surface font-tabular-amount text-tabular-amount focus:outline-none focus:bg-surface-container-lowest shadow-sm" type="number" value="3"/>
+<span class="absolute right-3 font-caption text-caption text-outline">người</span>
+</div>
+</div>
+</div>
+<!-- Utilities Checkboxes & Tariffs -->
+<div class="flex flex-col gap-2 pt-1">
+<label class="font-caption text-caption text-on-surface-variant font-medium">Dịch vụ &amp; Tiện ích tính kèm</label>
+<div class="space-y-2">
+<!-- Electricity -->
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low shadow-sm">
+<div class="flex items-center gap-2.5">
+<input checked="" class="w-5 h-5 rounded accent-primary-container cursor-pointer" id="util-elec" type="checkbox"/>
+<label class="flex items-center gap-1.5 cursor-pointer" for="util-elec">
+<span class="material-symbols-outlined text-[18px] text-secondary">bolt</span>
+<span class="font-body-sm-medium text-body-sm-medium text-on-surface">Điện sinh hoạt</span>
+</label>
+</div>
+<div class="flex items-center gap-1">
+<input class="w-20 text-right h-8 px-2 rounded bg-surface-container-lowest font-tabular-amount text-body-sm text-on-surface focus:outline-none shadow-inner" type="text" value="3.500"/>
+<span class="font-caption text-caption text-outline">₫/kWh</span>
+</div>
+</div>
+<!-- Water -->
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low shadow-sm">
+<div class="flex items-center gap-2.5">
+<input checked="" class="w-5 h-5 rounded accent-primary-container cursor-pointer" id="util-water" type="checkbox"/>
+<label class="flex items-center gap-1.5 cursor-pointer" for="util-water">
+<span class="material-symbols-outlined text-[18px] text-primary">water_drop</span>
+<span class="font-body-sm-medium text-body-sm-medium text-on-surface">Nước sinh hoạt</span>
+</label>
+</div>
+<div class="flex items-center gap-1">
+<input class="w-20 text-right h-8 px-2 rounded bg-surface-container-lowest font-tabular-amount text-body-sm text-on-surface focus:outline-none shadow-inner" type="text" value="25.000"/>
+<span class="font-caption text-caption text-outline">₫/m³</span>
+</div>
+</div>
+<!-- Wifi & Trash -->
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low shadow-sm">
+<div class="flex items-center gap-2.5">
+<input checked="" class="w-5 h-5 rounded accent-primary-container cursor-pointer" id="util-wifi" type="checkbox"/>
+<label class="flex items-center gap-1.5 cursor-pointer" for="util-wifi">
+<span class="material-symbols-outlined text-[18px] text-tertiary">wifi</span>
+<span class="font-body-sm-medium text-body-sm-medium text-on-surface">Wifi &amp; Rác vệ sinh</span>
+</label>
+</div>
+<div class="flex items-center gap-1">
+<input class="w-20 text-right h-8 px-2 rounded bg-surface-container-lowest font-tabular-amount text-body-sm text-on-surface focus:outline-none shadow-inner" type="text" value="100.000"/>
+<span class="font-caption text-caption text-outline">₫/phòng</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- MODE B: SINGLE ROOM CUSTOM DETAILS SECTION (Optional expandable in bulk, primary in single) -->
+<div class="flex flex-col gap-space-md px-margin mt-space-md" id="single-room-section">
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">chair</span>
+</div>
+<div>
+<h2 class="font-title-sm text-title-sm text-on-surface">Tiện nghi &amp; Trang thiết bị nội thất</h2>
+<p class="font-caption text-caption text-on-surface-variant">Gán mặc định cho toàn bộ các phòng vừa tạo</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline text-[20px]">tune</span>
+</div>
+<!-- Amenity Tags Multi-selector -->
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+<label class="cursor-pointer select-none">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="p-2.5 rounded-lg bg-surface-container-low peer-checked:bg-primary-fixed peer-checked:text-on-primary-fixed flex items-center gap-2 transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">ac_unit</span>
+<span class="font-body-sm-medium text-body-sm-medium">Điều hòa</span>
+</div>
+</label>
+<label class="cursor-pointer select-none">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="p-2.5 rounded-lg bg-surface-container-low peer-checked:bg-primary-fixed peer-checked:text-on-primary-fixed flex items-center gap-2 transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">shower</span>
+<span class="font-body-sm-medium text-body-sm-medium">Nóng lạnh</span>
+</div>
+</label>
+<label class="cursor-pointer select-none">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="p-2.5 rounded-lg bg-surface-container-low peer-checked:bg-primary-fixed peer-checked:text-on-primary-fixed flex items-center gap-2 transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">balcony</span>
+<span class="font-body-sm-medium text-body-sm-medium">Ban công</span>
+</div>
+</label>
+<label class="cursor-pointer select-none">
+<input class="sr-only peer" type="checkbox"/>
+<div class="p-2.5 rounded-lg bg-surface-container-low peer-checked:bg-primary-fixed peer-checked:text-on-primary-fixed flex items-center gap-2 transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">window</span>
+<span class="font-body-sm-medium text-body-sm-medium">Cửa sổ thoáng</span>
+</div>
+</label>
+<label class="cursor-pointer select-none">
+<input class="sr-only peer" type="checkbox"/>
+<div class="p-2.5 rounded-lg bg-surface-container-low peer-checked:bg-primary-fixed peer-checked:text-on-primary-fixed flex items-center gap-2 transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">countertops</span>
+<span class="font-body-sm-medium text-body-sm-medium">Bếp riêng</span>
+</div>
+</label>
+<label class="cursor-pointer select-none">
+<input class="sr-only peer" type="checkbox"/>
+<div class="p-2.5 rounded-lg bg-surface-container-low peer-checked:bg-primary-fixed peer-checked:text-on-primary-fixed flex items-center gap-2 transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">bed</span>
+<span class="font-body-sm-medium text-body-sm-medium">Giường tủ</span>
+</div>
+</label>
+</div>
+<!-- Specific Room Number for Single Mode -->
+<div class="hidden flex-col gap-1.5 pt-2" id="single-custom-name-box">
+<label class="font-caption text-caption text-on-surface-variant font-medium">Tên định danh phòng lẻ</label>
+<div class="relative flex items-center">
+<input class="w-full h-12 px-3 rounded-lg bg-surface-container-low text-on-surface font-body-base-medium text-body-base-medium focus:outline-none focus:bg-surface-container-lowest shadow-sm" placeholder="Ví dụ: Phòng VIP 401 hoặc Căn hộ Penthouse" type="text"/>
+<span class="material-symbols-outlined text-outline absolute right-3 text-[20px]">badge</span>
+</div>
+</div>
+</div>
+<!-- Micro Photo Reference Gallery (Delight touch) -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-outline text-[18px]">photo_camera</span>
+<span class="font-body-sm-medium text-body-sm-medium text-on-surface">Ảnh mẫu đại diện phòng trọ</span>
+</div>
+<button class="font-caption text-caption text-primary hover:underline flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[14px]">add</span> Tải thêm
+        </button>
+</div>
+<div class="grid grid-cols-3 gap-2">
+<div class="aspect-video rounded-lg overflow-hidden relative shadow-inner">
+<img class="w-full h-full object-cover" data-alt="A modern well-lit studio rental apartment room in Hanoi with sleek wooden flooring, large sunlit window, queen sized bed with indigo throw blanket and ambient warm evening lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmdxDGMXp4gpIiM34eQlYtv60CeeCIggZU0KWnZuBQX3pmOMMtGT-qZVJV2mxuhTctxwaSpId3SLX-XDyDG4c1AN0fKYtss8JNMqd1iTjd4UGeKwH6AYjnyBLV6GFYLxktGTT0XYDepwI9FeCyEagOTO7XJqaQ_uKbTxrmr43LAu1M026KmQDA_6JoUIR3p98Svh-O117SugLt3NMM0i7459Qv4xYOneRQWZqZ1AU"/>
+<span class="absolute bottom-1 left-1 bg-surface-container-lowest/80 backdrop-blur-sm text-on-surface font-caption text-[10px] px-1 rounded">Chính</span>
+</div>
+<div class="aspect-video rounded-lg overflow-hidden relative shadow-inner">
+<img class="w-full h-full object-cover" data-alt="Compact modern rental apartment bathroom with spotless clean ceramic tiles, glass shower partition, wall mirror, and modern chrome fixtures in warm indoor illumination" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3PenXxX2Ryxv2_c0gWc0d-FzQ6FHbRqwqRhnHlnPejKGkdJO3EtffcMfI0mZtBIq_5VR4z3GcolTWoabn7qktXujYzySa2z1tGE4paKh4jtpSkVwDttvc9rbwnh09GjcvtsD3TY00baplwLm3m3SRSgVJqKouMIiVrx0WlUfaRSNal8m2hKZZ8qmQHbBIihXxDO2WPej27dyfWH_jOcLCLSxnz9LgEOgYOlW5ofE"/>
+</div>
+<div class="aspect-video rounded-lg overflow-hidden relative shadow-inner flex flex-col items-center justify-center bg-surface-container text-on-surface-variant cursor-pointer hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[20px]">add_photo_alternate</span>
+<span class="font-caption text-[11px] mt-0.5">+3 ảnh</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Sticky Bottom Floating Action Bar -->
+<div class="sticky bottom-0 inset-x-0 bg-surface/90 backdrop-blur-lg px-margin py-3 shadow-[0_-4px_16px_rgba(15,23,42,0.06)] mt-space-xl">
+<div class="flex items-center gap-3">
+<!-- Cancel Button -->
+<button class="h-12 px-5 rounded-lg bg-surface-container text-on-surface-variant font-body-sm-medium text-body-sm-medium hover:bg-surface-container-high transition-colors flex items-center justify-center" onclick="history.back()" type="button">
+        Hủy bỏ
+      </button>
+<!-- Primary Action -->
+<button class="flex-1 h-12 px-4 rounded-lg bg-primary-container text-on-primary font-body-sm-medium text-body-sm-medium flex items-center justify-center gap-2 shadow-md hover:opacity-95 active:scale-[0.98] transition-all" id="submit-create-btn" onclick="triggerSuccessState()" type="button">
+<span class="material-symbols-outlined text-[20px]">add_task</span>
+<span id="submit-btn-label">Tạo 16 phòng ngay</span>
+</button>
+</div>
+</div>
+<!-- Success Modal Overlay (Client Delight Toast/Modal) -->
+<div class="fixed inset-x-4 top-20 z-50 transform -translate-y-28 opacity-0 pointer-events-none transition-all duration-300" id="success-toast">
+<div class="bg-inverse-surface text-inverse-on-surface rounded-xl p-4 shadow-xl flex items-center justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</div>
+<div>
+<p class="font-body-base-medium text-body-base-medium text-inverse-on-surface">Đã khởi tạo thành công!</p>
+<p class="font-caption text-caption text-tertiary-fixed-dim">Danh sách phòng đã sẵn sàng phát hành hóa đơn.</p>
+</div>
+</div>
+<button class="text-tertiary-fixed-dim hover:text-inverse-on-surface" onclick="dismissToast()">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+</div>
+</div>
+<script>
+  let currentMode = 'bulk';
+
+  function updateRoomPreview() {
+    if (currentMode !== 'bulk') return;
+
+    const prefix = document.getElementById('input-prefix').value.trim() || 'P.';
+    const roomsPerFloor = parseInt(document.getElementById('select-rooms-per-floor').value, 10);
+    const checkedFloors = Array.from(document.querySelectorAll('.floor-checkbox:checked')).map(cb => parseInt(cb.value, 10));
+
+    const container = document.getElementById('preview-chips-container');
+    const totalBadge = document.getElementById('preview-total-badge');
+    const submitBtnLabel = document.getElementById('submit-btn-label');
+
+    container.innerHTML = '';
+    const generatedRooms = [];
+
+    checkedFloors.sort((a, b) => a - b).forEach(floor => {
+      for (let i = 1; i <= roomsPerFloor; i++) {
+        const roomCode = `${floor}${i < 10 ? '0' + i : i}`;
+        generatedRooms.push(`${prefix}${roomCode}`);
+      }
+    });
+
+    const total = generatedRooms.length;
+    totalBadge.textContent = `Tổng: ${total} phòng`;
+    submitBtnLabel.textContent = total > 0 ? `Tạo ${total} phòng ngay` : 'Vui lòng chọn ít nhất 1 tầng';
+
+    if (total === 0) {
+      container.innerHTML = '<span class="font-caption text-caption text-outline italic">Chưa chọn tầng nào để xem trước...</span>';
+      return;
+    }
+
+    // Limit preview chips rendered to max 24 for UI performance, with remainder count
+    const previewLimit = 20;
+    generatedRooms.slice(0, previewLimit).forEach(name => {
+      const chip = document.createElement('span');
+      chip.className = 'font-caption text-caption px-2 py-0.5 rounded-full bg-surface-container-highest text-on-surface font-medium shadow-2xs';
+      chip.textContent = name;
+      container.appendChild(chip);
+    });
+
+    if (generatedRooms.length > previewLimit) {
+      const moreChip = document.createElement('span');
+      moreChip.className = 'font-caption text-caption px-2 py-0.5 rounded-full bg-surface-container text-outline font-medium';
+      moreChip.textContent = `+${generatedRooms.length - previewLimit} phòng nữa`;
+      container.appendChild(moreChip);
+    }
+  }
+
+  function selectAllFloors() {
+    const checkboxes = document.querySelectorAll('.floor-checkbox');
+    const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+    checkboxes.forEach(cb => cb.checked = !allChecked);
+    updateRoomPreview();
+  }
+
+  function switchMode(mode) {
+    currentMode = mode;
+    const tabBulk = document.getElementById('tab-bulk-btn');
+    const tabSingle = document.getElementById('tab-single-btn');
+    const bulkSection = document.getElementById('bulk-generator-section');
+    const singleCustomName = document.getElementById('single-custom-name-box');
+    const submitBtnLabel = document.getElementById('submit-btn-label');
+
+    if (mode === 'bulk') {
+      tabBulk.className = 'flex-1 py-2.5 px-3 rounded-lg font-body-sm-medium text-body-sm-medium flex items-center justify-center gap-1.5 transition-all duration-200 bg-surface-container-lowest text-primary shadow-sm';
+      tabSingle.className = 'flex-1 py-2.5 px-3 rounded-lg font-body-sm-medium text-body-sm-medium flex items-center justify-center gap-1.5 transition-all duration-200 text-on-surface-variant hover:text-on-surface';
+      bulkSection.classList.remove('hidden');
+      singleCustomName.classList.add('hidden');
+      updateRoomPreview();
+    } else {
+      tabSingle.className = 'flex-1 py-2.5 px-3 rounded-lg font-body-sm-medium text-body-sm-medium flex items-center justify-center gap-1.5 transition-all duration-200 bg-surface-container-lowest text-primary shadow-sm';
+      tabBulk.className = 'flex-1 py-2.5 px-3 rounded-lg font-body-sm-medium text-body-sm-medium flex items-center justify-center gap-1.5 transition-all duration-200 text-on-surface-variant hover:text-on-surface';
+      bulkSection.classList.add('hidden');
+      singleCustomName.classList.remove('hidden');
+      submitBtnLabel.textContent = 'Lưu 1 phòng đơn';
+    }
+  }
+
+  function triggerSuccessState() {
+    const toast = document.getElementById('success-toast');
+    toast.classList.remove('-translate-y-28', 'opacity-0', 'pointer-events-none');
+    toast.classList.add('translate-y-0', 'opacity-100');
+
+    setTimeout(() => {
+      dismissToast();
+    }, 3200);
+  }
+
+  function dismissToast() {
+    const toast = document.getElementById('success-toast');
+    toast.classList.remove('translate-y-0', 'opacity-100');
+    toast.classList.add('-translate-y-28', 'opacity-0', 'pointer-events-none');
+  }
+
+  // Initialize preview on page load
+  document.addEventListener('DOMContentLoaded', () => {
+    updateRoomPreview();
+  });
+  updateRoomPreview();
+</script></main></body></html>

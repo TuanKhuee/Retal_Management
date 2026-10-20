@@ -1,0 +1,6364 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/api/v1/auth/register": {
+      "post": {
+        "operationId": "AuthController_register",
+        "summary": "Register OWNER: Creates User + Organization + OWNER Membership in 1 transaction",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Owner registered successfully with tokens"
+          }
+        },
+        "tags": [
+          "Auth & Identity"
+        ]
+      }
+    },
+    "/api/v1/auth/login": {
+      "post": {
+        "operationId": "AuthController_login",
+        "summary": "Login with email/phone + password (argon2id; temporary lock after 5 failed attempts)",
+        "parameters": [
+          {
+            "name": "x-org-id",
+            "required": true,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Org-Id",
+            "in": "header",
+            "description": "Select active organization context if user has multiple memberships",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Logged in successfully with tokens"
+          },
+          "401": {
+            "description": "Invalid credentials or account temporarily locked"
+          }
+        },
+        "tags": [
+          "Auth & Identity"
+        ]
+      }
+    },
+    "/api/v1/auth/refresh": {
+      "post": {
+        "operationId": "AuthController_refresh",
+        "summary": "Refresh access token with rotation & reuse detection (revokes entire family if reused)",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshTokenDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "New token pair issued"
+          },
+          "401": {
+            "description": "Invalid, expired, or reused refresh token"
+          }
+        },
+        "tags": [
+          "Auth & Identity"
+        ]
+      }
+    },
+    "/api/v1/auth/logout": {
+      "post": {
+        "operationId": "AuthController_logout",
+        "summary": "Logout from current device or all devices",
+        "parameters": [
+          {
+            "name": "all",
+            "required": false,
+            "in": "query",
+            "description": "Pass true to revoke all devices",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth & Identity"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/auth/change-password": {
+      "post": {
+        "operationId": "AuthController_changePassword",
+        "summary": "Change password with argon2id and revoke all sessions",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePasswordDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth & Identity"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/auth/forgot-password": {
+      "post": {
+        "operationId": "AuthController_forgotPassword",
+        "summary": "Generate password reset token",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ForgotPasswordDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth & Identity"
+        ]
+      }
+    },
+    "/api/v1/auth/reset-password": {
+      "post": {
+        "operationId": "AuthController_resetPassword",
+        "summary": "Reset password using valid reset token",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetPasswordDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth & Identity"
+        ]
+      }
+    },
+    "/api/v1/auth/accept-invite": {
+      "post": {
+        "operationId": "AuthController_acceptInvite",
+        "summary": "TENANT accepts invite token, sets password, and activates TENANT membership",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AcceptInviteDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth & Identity"
+        ]
+      }
+    },
+    "/api/v1/me": {
+      "get": {
+        "operationId": "MeController_getMe",
+        "summary": "Get current user profile with all organization memberships",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "User Profile"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "MeController_updateProfile",
+        "summary": "Update profile details (fullName, phone)",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProfileDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "User Profile"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/me/devices": {
+      "post": {
+        "operationId": "MeController_registerDevice",
+        "summary": "Register FCM device token for push notifications",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterDeviceDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "User Profile"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/me/devices/{deviceId}": {
+      "delete": {
+        "operationId": "MeController_removeDevice",
+        "summary": "Unregister FCM device token",
+        "parameters": [
+          {
+            "name": "deviceId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "User Profile"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/organization": {
+      "get": {
+        "operationId": "OrganizationController_getMyOrganization",
+        "summary": "Get current organization profile and billing settings",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Organization profile returned"
+          }
+        },
+        "tags": [
+          "Organization"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "OrgController_updateOrg",
+        "summary": "Update organization settings (OWNER only: invoiceDueDays, billingClosingDay, roundingStep, timezone)",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateOrgSettingsDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Organization"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/organization/settings": {
+      "put": {
+        "operationId": "OrganizationController_updateSettings",
+        "summary": "Update organization settings (rounding step, invoice terms)",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateOrganizationSettingsDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Settings updated"
+          }
+        },
+        "tags": [
+          "Organization"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/properties": {
+      "get": {
+        "operationId": "PropertyController_list",
+        "summary": "List all properties with pagination",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Items per page",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "sort",
+            "required": false,
+            "in": "query",
+            "description": "Sort field (prefix with - for DESC)",
+            "schema": {
+              "default": "-createdAt",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Properties"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "PropertyController_create",
+        "summary": "Create a new property with bankAccount and billingConfig (OWNER only)",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePropertyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Property created successfully"
+          }
+        },
+        "tags": [
+          "Properties"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/properties/{id}": {
+      "get": {
+        "operationId": "PropertyController_getById",
+        "summary": "Get property by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Properties"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "PropertyController_update",
+        "summary": "Update property details (OWNER only)",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePropertyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Properties"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/properties/{id}/deactivate": {
+      "post": {
+        "operationId": "PropertyController_deactivate",
+        "summary": "Deactivate property (OWNER only)",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Properties"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/properties/{id}/dashboard": {
+      "get": {
+        "operationId": "PropertyController_getDashboard",
+        "summary": "Get property dashboard (tổng phòng, đang thuê, trống, công nợ, doanh thu kỳ hiện tại)",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Properties"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/rooms": {
+      "get": {
+        "operationId": "RoomController_list",
+        "summary": "List rooms with filters (propertyId, status, floor, q) & pagination (TENANT sees their room)",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Items per page",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "sort",
+            "required": false,
+            "in": "query",
+            "description": "Sort field (prefix with - for DESC)",
+            "schema": {
+              "default": "-createdAt",
+              "type": "string"
+            }
+          },
+          {
+            "name": "propertyId",
+            "required": false,
+            "in": "query",
+            "description": "Filter by Property ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "description": "Filter by Room Status",
+            "schema": {
+              "enum": [
+                "VACANT",
+                "OCCUPIED",
+                "MAINTENANCE",
+                "RESERVED",
+                "VACANT"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "floor",
+            "required": false,
+            "in": "query",
+            "description": "Filter by Floor",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "q",
+            "required": false,
+            "in": "query",
+            "description": "Search room code (q)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Rooms"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "RoomController_create",
+        "summary": "Create a single room (OWNER/MANAGER only)",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoomDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Room created successfully"
+          }
+        },
+        "tags": [
+          "Rooms"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/rooms/bulk": {
+      "post": {
+        "operationId": "RoomController_bulkCreate",
+        "summary": "Bulk create rooms via pattern e.g. A101-A120 (OWNER/MANAGER only)",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BulkCreateRoomsDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Bulk rooms created successfully"
+          }
+        },
+        "tags": [
+          "Rooms"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/rooms/{id}": {
+      "get": {
+        "operationId": "RoomController_getById",
+        "summary": "Get room by ID (TENANT can only view their own room; cross-access returns 404)",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Rooms"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "RoomController_update",
+        "summary": "Update room details (OWNER/MANAGER only)",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoomDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Rooms"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "RoomController_delete",
+        "summary": "Soft-delete room (CHẶN khi phòng đang OCCUPIED -> 422)",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Rooms"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/rooms/{id}/status": {
+      "post": {
+        "operationId": "RoomController_changeStatus",
+        "summary": "Change room status: VACANT <-> MAINTENANCE <-> RESERVED (CHẶN khi OCCUPIED)",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeRoomStatusDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Rooms"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/tenants": {
+      "get": {
+        "operationId": "TenantController_list",
+        "summary": "List tenants (search by name or phone, paginated)",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Items per page",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "sort",
+            "required": false,
+            "in": "query",
+            "description": "Sort field (prefix with - for DESC)",
+            "schema": {
+              "default": "-createdAt",
+              "type": "string"
+            }
+          },
+          {
+            "name": "q",
+            "required": false,
+            "in": "query",
+            "description": "Search by full name, phone number or last 4 digits of CCCD",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Tenants"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "TenantController_create",
+        "summary": "Create a new tenant profile (auto-encrypts CCCD with AES-256-GCM)",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTenantDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Tenant created successfully"
+          }
+        },
+        "tags": [
+          "Tenants"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/tenants/{id}": {
+      "get": {
+        "operationId": "TenantController_getById",
+        "summary": "Get tenant profile (TENANT can only view their own profile; cross-access returns 404)",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Tenants"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "TenantController_update",
+        "summary": "Update tenant profile details",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTenantDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Tenants"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/tenants/{id}/history": {
+      "get": {
+        "operationId": "TenantController_getHistory",
+        "summary": "Get rental history of tenant: contracts, past rooms, invoices, and payments",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Tenants"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/tenants/{id}/invite": {
+      "post": {
+        "operationId": "TenantController_invite",
+        "summary": "Generate account invitation link/token for tenant (OWNER/MANAGER only)",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Tenants"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/services": {
+      "get": {
+        "operationId": "ServiceController_list",
+        "summary": "List services with filters (propertyId, type, calcMethod, isActive) and pagination",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Items per page",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "sort",
+            "required": false,
+            "in": "query",
+            "description": "Sort field (prefix with - for DESC)",
+            "schema": {
+              "default": "-createdAt",
+              "type": "string"
+            }
+          },
+          {
+            "name": "propertyId",
+            "required": false,
+            "in": "query",
+            "description": "Lọc theo Property ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "type",
+            "required": false,
+            "in": "query",
+            "description": "Lọc theo loại dịch vụ",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "calcMethod",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "enum": [
+                "METER",
+                "PER_PERSON",
+                "PER_ROOM",
+                "FIXED",
+                "FREE"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "isActive",
+            "required": false,
+            "in": "query",
+            "description": "Lọc theo trạng thái hoạt động",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "q",
+            "required": false,
+            "in": "query",
+            "description": "Tìm kiếm theo mã hoặc tên",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Services"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "ServiceController_create",
+        "summary": "Create a new utility/service (OWNER/MANAGER only)",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateServiceDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Service created successfully"
+          }
+        },
+        "tags": [
+          "Services"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/services/{id}": {
+      "get": {
+        "operationId": "ServiceController_getById",
+        "summary": "Get service details by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Services"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "ServiceController_update",
+        "summary": "Update service details or unitPrice (auto-appends to priceHistory without affecting past invoices)",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateServiceDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Services"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/contracts": {
+      "get": {
+        "operationId": "ContractController_list",
+        "summary": "List contracts with filters & pagination (TENANT only sees their own contracts)",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Items per page",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "sort",
+            "required": false,
+            "in": "query",
+            "description": "Sort field (prefix with - for DESC)",
+            "schema": {
+              "default": "-createdAt",
+              "type": "string"
+            }
+          },
+          {
+            "name": "propertyId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "roomId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "tenantId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "isCurrent",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Contracts"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "ContractController_create",
+        "summary": "Create a new rental contract in PENDING status",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateContractDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Contract created successfully"
+          }
+        },
+        "tags": [
+          "Contracts"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/contracts/move-in": {
+      "post": {
+        "operationId": "ContractController_moveIn",
+        "summary": "Move-in workflow: 1 atomic transaction (tenant, contract, deposit, locked meter, room occupied, invite)",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MoveInDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Contracts"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/contracts/{id}": {
+      "get": {
+        "operationId": "ContractController_getById",
+        "summary": "Get contract by ID (TENANT only reads their own contract; cross-access returns 404)",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Contracts"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "ContractController_update",
+        "summary": "Update non-financial contract terms (occupants, dueDay, terms, notes)",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateContractDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Contracts"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/contracts/{id}/revisions": {
+      "post": {
+        "operationId": "ContractController_createRevision",
+        "summary": "Adjust contract rent or terms: appends revision, bumps version, logs audit",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateContractRevisionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Contracts"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/contracts/{id}/activate": {
+      "post": {
+        "operationId": "ContractController_activate",
+        "summary": "Activate contract: PENDING -> ACTIVE (locks room to OCCUPIED)",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Contracts"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "ContractController_activatePatch",
+        "summary": "Compatibility alias for activate contract",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Contracts"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/contracts/{id}/terminate": {
+      "post": {
+        "operationId": "ContractController_terminate",
+        "summary": "Terminate contract: ACTIVE -> TERMINATED (frees room to VACANT)",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TerminateContractDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Contracts"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "ContractController_terminatePatch",
+        "summary": "Compatibility alias for terminate contract",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TerminateContractDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Contracts"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/contracts/{id}/renew": {
+      "post": {
+        "operationId": "ContractController_renew",
+        "summary": "Renew contract: extends endDate and optionally adjusts rent",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RenewContractDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Contracts"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/contracts/{id}/deposit": {
+      "post": {
+        "operationId": "ContractController_recordDeposit",
+        "summary": "Record deposit transaction: COLLECTED | DEDUCTED | REFUNDED",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecordDepositDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Contracts"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/contracts/{id}/move-out/preview": {
+      "post": {
+        "operationId": "ContractController_moveOutPreview",
+        "summary": "Preview move-out settlement: prorated rent, utilities, debt deduction, deposit refund (No DB writes)",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MoveOutPreviewDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Contracts"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/contracts/{id}/move-out": {
+      "post": {
+        "operationId": "ContractController_moveOut",
+        "summary": "Finalize move-out: settlement invoice, contract TERMINATED, room VACANT, isCurrent=false",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MoveOutDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Contracts"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/move-in": {
+      "post": {
+        "operationId": "MoveInController_moveIn",
+        "summary": "Move-in workflow top-level alias (POST /move-in)",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MoveInDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Contracts"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/rooms/{id}/meters": {
+      "get": {
+        "operationId": "MeterController_getMetersByRoom",
+        "summary": "Get all electric and water meters installed in a room",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Meters"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "MeterController_createMeter",
+        "summary": "Add a new electric or water meter to a room",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMeterDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Meter created successfully"
+          }
+        },
+        "tags": [
+          "Meters"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/meters/{id}": {
+      "patch": {
+        "operationId": "MeterController_updateMeter",
+        "summary": "Update meter details (serialNo, multiplier, status: ACTIVE|INACTIVE|REPLACED)",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMeterDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Meters"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/meter-readings": {
+      "get": {
+        "operationId": "MeterReadingController_getReadings",
+        "summary": "Get area meter reading board by propertyId & period, or filter by roomId",
+        "parameters": [
+          {
+            "name": "propertyId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "period",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "example": "2026-10",
+              "type": "string"
+            }
+          },
+          {
+            "name": "roomId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "billingPeriod",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Meter Readings"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "MeterReadingController_recordLegacy",
+        "summary": "Legacy single record electricity and water meter readings",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecordMeterReadingDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Meter Readings"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/meter-readings/{id}": {
+      "put": {
+        "operationId": "MeterReadingController_update",
+        "summary": "Update reading: server retrieves previousValue, calculates consumption (Client does not send consumption)",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMeterReadingDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Meter Readings"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/meter-readings/batch": {
+      "post": {
+        "operationId": "MeterReadingController_batch",
+        "summary": "Batch input multiple meter readings for a property & period",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchMeterReadingsDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Meter Readings"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/meter-readings/lock": {
+      "post": {
+        "operationId": "MeterReadingController_lock",
+        "summary": "Lock meter readings for period: snapshots unitPrice/amount from service and locks records",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LockMeterReadingsDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Meter Readings"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/meter-readings/import": {
+      "post": {
+        "operationId": "MeterReadingController_import",
+        "summary": "Excel/CSV Import: preview validates line-by-line errors (commit=false); commit mode writes data (commit=true)",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ImportMeterReadingsDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Meter Readings"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/billing-periods": {
+      "post": {
+        "operationId": "BillingPeriodController_create",
+        "summary": "Create a new billing period for a property (OWNER/MANAGER)",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateBillingPeriodDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Billing Periods"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "BillingPeriodController_list",
+        "summary": "List all billing periods for a property (OWNER/MANAGER/STAFF)",
+        "parameters": [
+          {
+            "name": "propertyId",
+            "required": false,
+            "in": "query",
+            "description": "Lọc theo ID Bất động sản",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "description": "Lọc theo trạng thái kỳ",
+            "schema": {
+              "enum": [
+                "OPEN",
+                "CLOSED"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Billing Periods"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/billing-periods/{id}/close": {
+      "post": {
+        "operationId": "BillingPeriodController_close",
+        "summary": "Close a billing period (OWNER/MANAGER)",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CloseBillingPeriodDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Billing Periods"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/billing-periods/{id}/generate-invoices": {
+      "post": {
+        "operationId": "BillingPeriodController_generateInvoices",
+        "summary": "Idempotently generate invoices in chunks for all active contracts in period. Reading must be LOCKED.",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateInvoicesDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Billing Periods"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/invoices/generate-draft": {
+      "post": {
+        "operationId": "InvoiceController_generateDraft",
+        "summary": "Generate draft invoice snapshot from rent + meter readings",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateInvoiceDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Draft invoice created"
+          }
+        },
+        "tags": [
+          "Invoices"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/invoices": {
+      "get": {
+        "operationId": "InvoiceController_list",
+        "summary": "List invoices with filters (status, period/billingPeriodId, propertyId, roomId, overdue)",
+        "parameters": [
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "description": "Lọc theo trạng thái",
+            "schema": {
+              "enum": [
+                "DRAFT",
+                "ISSUED",
+                "PARTIALLY_PAID",
+                "PAID",
+                "OVERDUE",
+                "CANCELLED",
+                "VOIDED"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "period",
+            "required": false,
+            "in": "query",
+            "description": "Kỳ tính phí YYYY-MM",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "billingPeriodId",
+            "required": false,
+            "in": "query",
+            "description": "Kỳ tính phí YYYY-MM (alias)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "propertyId",
+            "required": false,
+            "in": "query",
+            "description": "Lọc theo Khu trọ",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "roomId",
+            "required": false,
+            "in": "query",
+            "description": "Lọc theo Phòng",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "contractId",
+            "required": false,
+            "in": "query",
+            "description": "Lọc theo Hợp đồng",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "overdue",
+            "required": false,
+            "in": "query",
+            "description": "Chỉ lấy hóa đơn quá hạn",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": 20,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Invoices"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/invoices/issue": {
+      "post": {
+        "operationId": "InvoiceController_batchIssue",
+        "summary": "Batch issue draft invoices",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchIssueInvoicesDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Invoices"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/invoices/{id}": {
+      "get": {
+        "operationId": "InvoiceController_getById",
+        "summary": "Get invoice details by ID (Tenant ownership protected)",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Invoices"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "InvoiceController_updateDraft",
+        "summary": "Update draft invoice items/discounts/notes (DRAFT only)",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateInvoiceDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Invoices"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/invoices/{id}/issue": {
+      "post": {
+        "operationId": "InvoiceController_issuePost",
+        "summary": "Issue invoice: DRAFT -> ISSUED",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Invoices"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "InvoiceController_issuePatch",
+        "summary": "Issue invoice: DRAFT -> ISSUED (alias)",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Invoices"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/invoices/{id}/cancel": {
+      "post": {
+        "operationId": "InvoiceController_cancelPost",
+        "summary": "Cancel/Void invoice with mandatory reason (PAID cannot be cancelled)",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CancelInvoiceDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Invoices"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "InvoiceController_cancelPatch",
+        "summary": "Cancel/Void invoice with mandatory reason (alias)",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CancelInvoiceDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Invoices"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/invoices/{id}/pdf": {
+      "get": {
+        "operationId": "InvoiceController_getPdf",
+        "summary": "Get invoice printable PDF/HTML document",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Invoices"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/invoices/{id}/payment-qr": {
+      "get": {
+        "operationId": "InvoiceController_getPaymentQr",
+        "summary": "Generate VietQR for invoice payment from property bankAccount (content=invoiceNo, amount=remaining)",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Invoices"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/debts": {
+      "get": {
+        "operationId": "DebtController_getDebts",
+        "summary": "Get aging debt reports grouped by room/tenant with overdue aging buckets (current, 1-7, 8-30, >30 days)",
+        "parameters": [
+          {
+            "name": "propertyId",
+            "required": false,
+            "in": "query",
+            "description": "Lọc theo Khu trọ",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "roomId",
+            "required": false,
+            "in": "query",
+            "description": "Lọc theo Phòng",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "tenantId",
+            "required": false,
+            "in": "query",
+            "description": "Lọc theo Khách thuê",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Debts & Aging Report"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/payments": {
+      "post": {
+        "operationId": "PaymentController_create",
+        "summary": "Process payment for invoice (CASH|BANK_TRANSFER, within transaction, amount<=remaining, optimistic lock)",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "description": "Unique client-generated idempotency key (UUID)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePaymentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Payment recorded successfully"
+          }
+        },
+        "tags": [
+          "Payments"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "PaymentController_list",
+        "summary": "List payments",
+        "parameters": [
+          {
+            "name": "invoiceId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Items per page",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "sort",
+            "required": false,
+            "in": "query",
+            "description": "Sort field (prefix with - for DESC)",
+            "schema": {
+              "default": "-createdAt",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Payments"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/payments/{id}/confirm": {
+      "post": {
+        "operationId": "PaymentController_confirm",
+        "summary": "Confirm a PENDING payment claim -> CONFIRMED, updates invoice balance",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Payments"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/payments/{id}/reject": {
+      "post": {
+        "operationId": "PaymentController_reject",
+        "summary": "Reject a PENDING payment claim with mandatory reason",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RejectPaymentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Payments"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/payments/{id}/void": {
+      "post": {
+        "operationId": "PaymentController_void",
+        "summary": "Void a CONFIRMED payment with mandatory reason, reverts invoice balance",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VoidPaymentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Payments"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/payments/{id}": {
+      "get": {
+        "operationId": "PaymentController_getById",
+        "summary": "Get payment receipt by ID (tenants only see their own)",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Payments"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/invoices/{id}/payment-claims": {
+      "post": {
+        "operationId": "PaymentClaimController_createClaim",
+        "summary": "TENANT: Report bank transfer payment with proof attachment -> PENDING claim",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePaymentClaimDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Payment Claims"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/maintenance-requests": {
+      "post": {
+        "operationId": "MaintenanceController_createRequest",
+        "summary": "TENANT: Create maintenance request (auto assigns roomId/tenantId from active contract)",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMaintenanceRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Maintenance"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "MaintenanceController_listRequests",
+        "summary": "List maintenance requests (OWNER: all with filters, TENANT: only own)",
+        "parameters": [
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "enum": [
+                "NEW",
+                "ACCEPTED",
+                "IN_PROGRESS",
+                "RESOLVED",
+                "CONFIRMED",
+                "REJECTED",
+                "CANCELLED",
+                "REOPENED"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "priority",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "enum": [
+                "LOW",
+                "NORMAL",
+                "HIGH",
+                "URGENT"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "category",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "roomId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Maintenance"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/maintenance-requests/{id}": {
+      "get": {
+        "operationId": "MaintenanceController_getRequestById",
+        "summary": "Get maintenance request detail (TENANT can only view own tickets; others return 404)",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Maintenance"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/maintenance-requests/{id}/transition": {
+      "post": {
+        "operationId": "MaintenanceController_transitionStatus",
+        "summary": "OWNER/STAFF: Transition ticket status (ACCEPTED, IN_PROGRESS, RESOLVED, REJECTED)",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransitionMaintenanceDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Maintenance"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/maintenance-requests/{id}/confirm": {
+      "post": {
+        "operationId": "MaintenanceController_confirmRequest",
+        "summary": "TENANT: Confirm resolved maintenance request -> CONFIRMED",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TenantActionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Maintenance"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/maintenance-requests/{id}/reopen": {
+      "post": {
+        "operationId": "MaintenanceController_reopenRequest",
+        "summary": "TENANT: Reopen resolved maintenance request -> REOPENED",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TenantActionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Maintenance"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/maintenance-requests/{id}/cancel": {
+      "post": {
+        "operationId": "MaintenanceController_cancelRequest",
+        "summary": "TENANT: Cancel NEW or ACCEPTED maintenance request -> CANCELLED",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TenantActionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Maintenance"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/maintenance-requests/{id}/messages": {
+      "get": {
+        "operationId": "MaintenanceController_listMessages",
+        "summary": "List messages for ticket with cursor pagination (only ticket participants allowed)",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "cursor",
+            "required": false,
+            "in": "query",
+            "description": "Message ID cursor for pagination",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Number of items to fetch",
+            "schema": {
+              "default": 20,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Maintenance"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "MaintenanceController_sendMessage",
+        "summary": "Send a message in ticket chat (only ticket participants allowed)",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMaintenanceMessageDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Maintenance"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/maintenance-requests/{id}/messages/read": {
+      "post": {
+        "operationId": "MaintenanceController_markMessagesRead",
+        "summary": "Mark messages as read for this ticket",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Maintenance"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/attachments/presign": {
+      "post": {
+        "operationId": "AttachmentController_presign",
+        "summary": "Generate S3 pre-signed upload URL after validating whitelist MIME, extension, and file size",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PresignAttachmentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PresignAttachmentResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Attachments"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/attachments/{id}/complete": {
+      "post": {
+        "operationId": "AttachmentController_complete",
+        "summary": "Mark attachment upload as READY",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Attachments"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/attachments/{id}/url": {
+      "get": {
+        "operationId": "AttachmentController_getUrl",
+        "summary": "Get short-lived pre-signed download URL, verifying entity-level access permissions",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttachmentUrlResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Attachments"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/notifications": {
+      "get": {
+        "operationId": "NotificationController_listNotifications",
+        "summary": "Get notifications of current user with cursor pagination & unread filter",
+        "parameters": [
+          {
+            "name": "cursor",
+            "required": false,
+            "in": "query",
+            "description": "Notification ID cursor for pagination",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Number of items to fetch",
+            "schema": {
+              "default": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "unread",
+            "required": false,
+            "in": "query",
+            "description": "Filter only unread notifications",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Notifications"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/notifications/unread-count": {
+      "get": {
+        "operationId": "NotificationController_getUnreadCount",
+        "summary": "Get total unread notifications count",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Notifications"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/notifications/{id}/read": {
+      "post": {
+        "operationId": "NotificationController_markAsRead",
+        "summary": "Mark single notification as read",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Notifications"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/notifications/read-all": {
+      "post": {
+        "operationId": "NotificationController_markAllRead",
+        "summary": "Mark all unread notifications as read",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Notifications"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/notifications/broadcast": {
+      "post": {
+        "operationId": "NotificationController_broadcast",
+        "summary": "OWNER: Broadcast announcement to tenants by property, room, or all",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BroadcastNotificationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Notifications"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/reports/revenue": {
+      "get": {
+        "operationId": "ReportController_getRevenueReport",
+        "summary": "OWNER: Aggregated revenue report (by period, property, fee breakdown)",
+        "parameters": [
+          {
+            "name": "propertyId",
+            "required": false,
+            "in": "query",
+            "description": "Filter by Property ID",
+            "schema": {
+              "example": "60d0fe4f5311236168a109ca",
+              "type": "string"
+            }
+          },
+          {
+            "name": "from",
+            "required": false,
+            "in": "query",
+            "description": "Start date (YYYY-MM-DD)",
+            "schema": {
+              "example": "2026-01-01",
+              "type": "string"
+            }
+          },
+          {
+            "name": "to",
+            "required": false,
+            "in": "query",
+            "description": "End date (YYYY-MM-DD)",
+            "schema": {
+              "example": "2026-12-31",
+              "type": "string"
+            }
+          },
+          {
+            "name": "period",
+            "required": false,
+            "in": "query",
+            "description": "Billing period (YYYY-MM)",
+            "schema": {
+              "example": "2026-10",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Reports"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/reports/debt": {
+      "get": {
+        "operationId": "ReportController_getDebtReport",
+        "summary": "OWNER: Aggregated debt report with aging buckets (1-7, 8-30, >30 days)",
+        "parameters": [
+          {
+            "name": "propertyId",
+            "required": false,
+            "in": "query",
+            "description": "Filter by Property ID",
+            "schema": {
+              "example": "60d0fe4f5311236168a109ca",
+              "type": "string"
+            }
+          },
+          {
+            "name": "from",
+            "required": false,
+            "in": "query",
+            "description": "Start date (YYYY-MM-DD)",
+            "schema": {
+              "example": "2026-01-01",
+              "type": "string"
+            }
+          },
+          {
+            "name": "to",
+            "required": false,
+            "in": "query",
+            "description": "End date (YYYY-MM-DD)",
+            "schema": {
+              "example": "2026-12-31",
+              "type": "string"
+            }
+          },
+          {
+            "name": "period",
+            "required": false,
+            "in": "query",
+            "description": "Billing period (YYYY-MM)",
+            "schema": {
+              "example": "2026-10",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Reports"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/reports/occupancy": {
+      "get": {
+        "operationId": "ReportController_getOccupancyReport",
+        "summary": "OWNER: Room occupancy rate and vacant/occupied rooms report",
+        "parameters": [
+          {
+            "name": "propertyId",
+            "required": false,
+            "in": "query",
+            "description": "Filter by Property ID",
+            "schema": {
+              "example": "60d0fe4f5311236168a109ca",
+              "type": "string"
+            }
+          },
+          {
+            "name": "from",
+            "required": false,
+            "in": "query",
+            "description": "Start date (YYYY-MM-DD)",
+            "schema": {
+              "example": "2026-01-01",
+              "type": "string"
+            }
+          },
+          {
+            "name": "to",
+            "required": false,
+            "in": "query",
+            "description": "End date (YYYY-MM-DD)",
+            "schema": {
+              "example": "2026-12-31",
+              "type": "string"
+            }
+          },
+          {
+            "name": "period",
+            "required": false,
+            "in": "query",
+            "description": "Billing period (YYYY-MM)",
+            "schema": {
+              "example": "2026-10",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Reports"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/reports/utilities": {
+      "get": {
+        "operationId": "ReportController_getUtilitiesReport",
+        "summary": "OWNER: Utilities electricity and water consumption and costs report",
+        "parameters": [
+          {
+            "name": "propertyId",
+            "required": false,
+            "in": "query",
+            "description": "Filter by Property ID",
+            "schema": {
+              "example": "60d0fe4f5311236168a109ca",
+              "type": "string"
+            }
+          },
+          {
+            "name": "from",
+            "required": false,
+            "in": "query",
+            "description": "Start date (YYYY-MM-DD)",
+            "schema": {
+              "example": "2026-01-01",
+              "type": "string"
+            }
+          },
+          {
+            "name": "to",
+            "required": false,
+            "in": "query",
+            "description": "End date (YYYY-MM-DD)",
+            "schema": {
+              "example": "2026-12-31",
+              "type": "string"
+            }
+          },
+          {
+            "name": "period",
+            "required": false,
+            "in": "query",
+            "description": "Billing period (YYYY-MM)",
+            "schema": {
+              "example": "2026-10",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Reports"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/reports/maintenance": {
+      "get": {
+        "operationId": "ReportController_getMaintenanceReport",
+        "summary": "OWNER: Maintenance ticket volume, status breakdown, and costs report",
+        "parameters": [
+          {
+            "name": "propertyId",
+            "required": false,
+            "in": "query",
+            "description": "Filter by Property ID",
+            "schema": {
+              "example": "60d0fe4f5311236168a109ca",
+              "type": "string"
+            }
+          },
+          {
+            "name": "from",
+            "required": false,
+            "in": "query",
+            "description": "Start date (YYYY-MM-DD)",
+            "schema": {
+              "example": "2026-01-01",
+              "type": "string"
+            }
+          },
+          {
+            "name": "to",
+            "required": false,
+            "in": "query",
+            "description": "End date (YYYY-MM-DD)",
+            "schema": {
+              "example": "2026-12-31",
+              "type": "string"
+            }
+          },
+          {
+            "name": "period",
+            "required": false,
+            "in": "query",
+            "description": "Billing period (YYYY-MM)",
+            "schema": {
+              "example": "2026-10",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Reports"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/reports/{type}/export": {
+      "post": {
+        "operationId": "ReportController_exportReport",
+        "summary": "OWNER: Trigger async report export (Excel/PDF), returns jobId and notifies when ready",
+        "parameters": [
+          {
+            "name": "type",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExportReportDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Reports"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/audit-logs": {
+      "get": {
+        "operationId": "AuditLogController_getAuditLogs",
+        "summary": "OWNER/MANAGER: Get append-only audit logs with filters (entity, actor, time range) & cursor pagination",
+        "parameters": [
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "example": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "cursor",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "to",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "example": "2026-12-31",
+              "type": "string"
+            }
+          },
+          {
+            "name": "from",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "example": "2026-01-01",
+              "type": "string"
+            }
+          },
+          {
+            "name": "actor",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "example": "user-owner-1",
+              "type": "string"
+            }
+          },
+          {
+            "name": "entity",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "example": "Contract",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of audit records"
+          }
+        },
+        "tags": [
+          "Audit Logs"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/health": {
+      "get": {
+        "operationId": "HealthController_getLiveness",
+        "summary": "Liveness check",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Application is alive"
+          }
+        },
+        "tags": [
+          "Health"
+        ]
+      }
+    },
+    "/health/ready": {
+      "get": {
+        "operationId": "HealthController_getReadiness",
+        "summary": "Readiness check for MongoDB and Redis",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Application dependencies are healthy"
+          }
+        },
+        "tags": [
+          "Health"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Rental Management Platform API",
+    "description": "Multi-tenant Rental Management Platform Backend with RBAC, Argon2id Auth, Billing Calculator, Transactions & Idempotency",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      },
+      "Idempotency-Key": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Idempotency-Key"
+      },
+      "X-Org-Id": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-Org-Id"
+      }
+    },
+    "schemas": {
+      "RegisterDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "owner@example.com",
+            "description": "Owner email address"
+          },
+          "phone": {
+            "type": "string",
+            "example": "0901234567",
+            "description": "Contact phone number"
+          },
+          "password": {
+            "type": "string",
+            "example": "SecureP@ssw0rd123!",
+            "minLength": 6,
+            "description": "Account password"
+          },
+          "fullName": {
+            "type": "string",
+            "example": "Nguyen Van A",
+            "description": "Owner full name"
+          },
+          "organizationName": {
+            "type": "string",
+            "example": "Nha Tro Binh An",
+            "description": "Organization/Brand name"
+          },
+          "deviceId": {
+            "type": "string",
+            "example": "device-uuid-123",
+            "description": "Client device unique ID"
+          }
+        },
+        "required": [
+          "email",
+          "password",
+          "fullName",
+          "organizationName"
+        ]
+      },
+      "LoginDto": {
+        "type": "object",
+        "properties": {
+          "identifier": {
+            "type": "string",
+            "example": "owner@example.com",
+            "description": "Email address or Phone number"
+          },
+          "password": {
+            "type": "string",
+            "example": "SecureP@ssw0rd123!",
+            "description": "Account password"
+          },
+          "deviceId": {
+            "type": "string",
+            "example": "device-uuid-123",
+            "description": "Client device unique ID"
+          }
+        },
+        "required": [
+          "identifier",
+          "password"
+        ]
+      },
+      "RefreshTokenDto": {
+        "type": "object",
+        "properties": {
+          "refreshToken": {
+            "type": "string",
+            "example": "eyJhbGciOi...",
+            "description": "Refresh token"
+          },
+          "deviceId": {
+            "type": "string",
+            "example": "device-uuid-123"
+          }
+        },
+        "required": [
+          "refreshToken"
+        ]
+      },
+      "ChangePasswordDto": {
+        "type": "object",
+        "properties": {
+          "oldPassword": {
+            "type": "string",
+            "example": "OldP@ssw0rd123!"
+          },
+          "newPassword": {
+            "type": "string",
+            "example": "NewSecureP@ssw0rd456!",
+            "minLength": 6
+          }
+        },
+        "required": [
+          "oldPassword",
+          "newPassword"
+        ]
+      },
+      "ForgotPasswordDto": {
+        "type": "object",
+        "properties": {
+          "identifier": {
+            "type": "string",
+            "example": "owner@example.com",
+            "description": "Email address or Phone number"
+          }
+        },
+        "required": [
+          "identifier"
+        ]
+      },
+      "ResetPasswordDto": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "example": "3f4b5c6d...",
+            "description": "Password reset token received"
+          },
+          "newPassword": {
+            "type": "string",
+            "example": "NewSecureP@ssw0rd789!",
+            "minLength": 6
+          }
+        },
+        "required": [
+          "token",
+          "newPassword"
+        ]
+      },
+      "AcceptInviteDto": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "example": "inv-tok-999...",
+            "description": "Invitation token"
+          },
+          "password": {
+            "type": "string",
+            "example": "TenantP@ssw0rd123!",
+            "minLength": 6
+          },
+          "fullName": {
+            "type": "string",
+            "example": "Nguyen Van B"
+          }
+        },
+        "required": [
+          "token",
+          "password"
+        ]
+      },
+      "UpdateProfileDto": {
+        "type": "object",
+        "properties": {
+          "fullName": {
+            "type": "string",
+            "example": "Nguyen Van A"
+          },
+          "phone": {
+            "type": "string",
+            "example": "0912345678"
+          }
+        }
+      },
+      "RegisterDeviceDto": {
+        "type": "object",
+        "properties": {
+          "fcmToken": {
+            "type": "string",
+            "example": "fcm-registration-token-xyz..."
+          },
+          "deviceId": {
+            "type": "string",
+            "example": "device-uuid-123"
+          },
+          "platform": {
+            "type": "string",
+            "enum": [
+              "ios",
+              "android",
+              "web"
+            ],
+            "example": "android"
+          }
+        },
+        "required": [
+          "fcmToken",
+          "deviceId",
+          "platform"
+        ]
+      },
+      "UpdateOrgSettingsDto": {
+        "type": "object",
+        "properties": {
+          "invoiceDueDays": {
+            "type": "number",
+            "example": 5,
+            "description": "Days before invoice becomes overdue"
+          },
+          "billingClosingDay": {
+            "type": "number",
+            "example": 30,
+            "description": "Billing closing cycle day of month"
+          },
+          "roundingStep": {
+            "type": "number",
+            "example": 1000,
+            "description": "Rounding step in VND"
+          },
+          "timezone": {
+            "type": "string",
+            "example": "Asia/Ho_Chi_Minh"
+          }
+        }
+      },
+      "UpdateOrganizationSettingsDto": {
+        "type": "object",
+        "properties": {
+          "roundingStep": {
+            "type": "number",
+            "description": "VND Rounding step (e.g. 1000 VND, 500 VND)",
+            "example": 1000
+          },
+          "invoiceDueDays": {
+            "type": "number",
+            "description": "Number of days until invoice is due after issued",
+            "example": 5
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency code",
+            "example": "VND"
+          },
+          "lateFeePercentage": {
+            "type": "number",
+            "description": "Late fee percentage per month",
+            "example": 0
+          }
+        }
+      },
+      "BankAccountDto": {
+        "type": "object",
+        "properties": {
+          "bankCode": {
+            "type": "string",
+            "example": "VCB",
+            "description": "Bank code (VCB, TCB, MB, etc.)"
+          },
+          "accountNo": {
+            "type": "string",
+            "example": "1029384756",
+            "description": "Bank account number"
+          },
+          "accountName": {
+            "type": "string",
+            "example": "NGUYEN VAN A",
+            "description": "Account holder name"
+          }
+        },
+        "required": [
+          "bankCode",
+          "accountNo",
+          "accountName"
+        ]
+      },
+      "BillingConfigDto": {
+        "type": "object",
+        "properties": {
+          "electricityUnitPrice": {
+            "type": "number",
+            "example": 3500,
+            "description": "Electricity price per kWh (VND)"
+          },
+          "waterUnitPrice": {
+            "type": "number",
+            "example": 25000,
+            "description": "Water price per m3 (VND)"
+          },
+          "internetUnitPrice": {
+            "type": "number",
+            "example": 100000,
+            "description": "Internet fee per room/month (VND)"
+          },
+          "garbageUnitPrice": {
+            "type": "number",
+            "example": 50000,
+            "description": "Garbage service fee per month (VND)"
+          }
+        }
+      },
+      "CreatePropertyDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Nha Tro Binh An - Co So 1",
+            "description": "Property / Building name"
+          },
+          "address": {
+            "type": "string",
+            "example": "123 Nguyen Trai, Thanh Xuan, Ha Noi",
+            "description": "Address"
+          },
+          "bankAccount": {
+            "$ref": "#/components/schemas/BankAccountDto"
+          },
+          "billingConfig": {
+            "$ref": "#/components/schemas/BillingConfigDto"
+          },
+          "electricityUnitPrice": {
+            "type": "number"
+          },
+          "waterUnitPrice": {
+            "type": "number"
+          },
+          "internetUnitPrice": {
+            "type": "number"
+          },
+          "garbageUnitPrice": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "name",
+          "address"
+        ]
+      },
+      "UpdatePropertyDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Nha Tro Binh An - Co So 1"
+          },
+          "address": {
+            "type": "string",
+            "example": "123 Nguyen Trai, Thanh Xuan, Ha Noi"
+          },
+          "bankAccount": {
+            "$ref": "#/components/schemas/BankAccountDto"
+          },
+          "billingConfig": {
+            "$ref": "#/components/schemas/BillingConfigDto"
+          }
+        }
+      },
+      "CreateRoomDto": {
+        "type": "object",
+        "properties": {
+          "propertyId": {
+            "type": "string",
+            "example": "PROP123...",
+            "description": "Property ID"
+          },
+          "code": {
+            "type": "string",
+            "example": "A101",
+            "description": "Room code identifier"
+          },
+          "floor": {
+            "type": "number",
+            "example": 1,
+            "default": 1
+          },
+          "area": {
+            "type": "number",
+            "example": 25,
+            "description": "Area in square meters"
+          },
+          "baseRent": {
+            "type": "number",
+            "example": 3500000,
+            "description": "Monthly base rent (Integer VND)"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "VACANT",
+              "OCCUPIED",
+              "MAINTENANCE",
+              "RESERVED",
+              "VACANT"
+            ],
+            "default": "VACANT"
+          },
+          "roomNumber": {
+            "type": "string"
+          },
+          "basePrice": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "propertyId",
+          "code",
+          "baseRent"
+        ]
+      },
+      "BulkCreateRoomsDto": {
+        "type": "object",
+        "properties": {
+          "propertyId": {
+            "type": "string",
+            "example": "PROP123...",
+            "description": "Property ID"
+          },
+          "pattern": {
+            "type": "string",
+            "example": "A101-A120",
+            "description": "Pattern for room codes generation (e.g., A101-A120 or 101-115)"
+          },
+          "floor": {
+            "type": "number",
+            "example": 1,
+            "default": 1
+          },
+          "area": {
+            "type": "number",
+            "example": 25
+          },
+          "baseRent": {
+            "type": "number",
+            "example": 3500000,
+            "description": "Monthly base rent in VND"
+          }
+        },
+        "required": [
+          "propertyId",
+          "pattern",
+          "baseRent"
+        ]
+      },
+      "UpdateRoomDto": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "example": "A101"
+          },
+          "floor": {
+            "type": "number",
+            "example": 1
+          },
+          "area": {
+            "type": "number",
+            "example": 25
+          },
+          "baseRent": {
+            "type": "number",
+            "example": 3800000
+          },
+          "roomNumber": {
+            "type": "string"
+          },
+          "basePrice": {
+            "type": "number"
+          }
+        }
+      },
+      "ChangeRoomStatusDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "VACANT",
+              "OCCUPIED",
+              "MAINTENANCE",
+              "RESERVED",
+              "VACANT"
+            ],
+            "example": "MAINTENANCE",
+            "description": "Target room status (VACANT, MAINTENANCE, RESERVED)"
+          },
+          "reason": {
+            "type": "string",
+            "example": "Sua chua dieu hoa hu"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "IdCardInputDto": {
+        "type": "object",
+        "properties": {
+          "number": {
+            "type": "string",
+            "example": "001200001234",
+            "description": "12-digit Vietnam CCCD"
+          },
+          "issueDate": {
+            "type": "string",
+            "example": "2022-01-01"
+          },
+          "issuePlace": {
+            "type": "string",
+            "example": "Cuc Canh sat QLHC ve TTXH"
+          }
+        },
+        "required": [
+          "number"
+        ]
+      },
+      "EmergencyContactDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Nguyen Van B",
+            "description": "Contact person name"
+          },
+          "phone": {
+            "type": "string",
+            "example": "0987654321",
+            "description": "Contact phone"
+          },
+          "relationship": {
+            "type": "string",
+            "example": "Bo",
+            "description": "Relationship (Bo, Me, Ban, etc.)"
+          }
+        },
+        "required": [
+          "name",
+          "phone",
+          "relationship"
+        ]
+      },
+      "CreateTenantDto": {
+        "type": "object",
+        "properties": {
+          "fullName": {
+            "type": "string",
+            "example": "Tran Van Bao",
+            "description": "Tenant full name"
+          },
+          "phone": {
+            "type": "string",
+            "example": "0912345678",
+            "description": "Primary phone number"
+          },
+          "email": {
+            "type": "string",
+            "example": "bao.tran@example.com",
+            "description": "Email address"
+          },
+          "idCard": {
+            "description": "ID card details (auto-encrypted with AES-256-GCM)",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/IdCardInputDto"
+              }
+            ]
+          },
+          "cccdNumber": {
+            "type": "string",
+            "example": "001200001234"
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "example": "1998-05-15",
+            "description": "Date of birth"
+          },
+          "permanentAddress": {
+            "type": "string",
+            "example": "Ha Noi, Viet Nam",
+            "description": "Permanent address"
+          },
+          "emergencyContact": {
+            "$ref": "#/components/schemas/EmergencyContactDto"
+          }
+        },
+        "required": [
+          "fullName",
+          "phone"
+        ]
+      },
+      "UpdateTenantDto": {
+        "type": "object",
+        "properties": {
+          "fullName": {
+            "type": "string",
+            "example": "Tran Van Bao"
+          },
+          "phone": {
+            "type": "string",
+            "example": "0912345678"
+          },
+          "email": {
+            "type": "string",
+            "example": "bao.tran@example.com"
+          },
+          "idCard": {
+            "$ref": "#/components/schemas/IdCardInputDto"
+          },
+          "cccdNumber": {
+            "type": "string"
+          },
+          "dateOfBirth": {
+            "type": "string"
+          },
+          "permanentAddress": {
+            "type": "string"
+          },
+          "emergencyContact": {
+            "$ref": "#/components/schemas/EmergencyContactDto"
+          }
+        }
+      },
+      "ServiceScopeDto": {
+        "type": "object",
+        "properties": {
+          "propertyIds": {
+            "description": "Danh sách ID bất động sản áp dụng. Nếu rỗng nghĩa là áp dụng toàn hệ thống.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "CreateServiceDto": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Mã dịch vụ duy nhất (vd: ELEC, WATER, PARKING, WIFI)",
+            "example": "ELEC"
+          },
+          "name": {
+            "type": "string",
+            "description": "Tên dịch vụ hiển thị",
+            "example": "Điện sinh hoạt"
+          },
+          "type": {
+            "type": "string",
+            "description": "Phân loại dịch vụ",
+            "example": "UTILITY"
+          },
+          "unit": {
+            "type": "string",
+            "description": "Đơn vị tính (kWh, m3, tháng, người, xe)",
+            "example": "kWh"
+          },
+          "calcMethod": {
+            "type": "string",
+            "description": "Phương thức tính: METER, PER_PERSON, PER_ROOM, FIXED, FREE",
+            "enum": [
+              "METER",
+              "PER_PERSON",
+              "PER_ROOM",
+              "FIXED",
+              "FREE"
+            ],
+            "example": "METER"
+          },
+          "unitPrice": {
+            "type": "number",
+            "description": "Đơn giá hiện hành (VND)",
+            "example": 3500
+          },
+          "scope": {
+            "description": "Phạm vi áp dụng (theo property)",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ServiceScopeDto"
+              }
+            ]
+          },
+          "effectiveFrom": {
+            "type": "string",
+            "description": "Ngày bắt đầu áp dụng đơn giá (mặc định là hiện tại)"
+          }
+        },
+        "required": [
+          "code",
+          "name",
+          "unit",
+          "calcMethod",
+          "unitPrice"
+        ]
+      },
+      "UpdateServiceDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Tên dịch vụ hiển thị"
+          },
+          "type": {
+            "type": "string",
+            "description": "Phân loại dịch vụ"
+          },
+          "unit": {
+            "type": "string",
+            "description": "Đơn vị tính"
+          },
+          "calcMethod": {
+            "type": "string",
+            "enum": [
+              "METER",
+              "PER_PERSON",
+              "PER_ROOM",
+              "FIXED",
+              "FREE"
+            ]
+          },
+          "unitPrice": {
+            "type": "number",
+            "description": "Đơn giá mới. Khi thay đổi sẽ tự động ghi vào priceHistory và KHÔNG ảnh hưởng hóa đơn cũ.",
+            "example": 3800
+          },
+          "scope": {
+            "description": "Phạm vi áp dụng",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ServiceScopeDto"
+              }
+            ]
+          },
+          "isActive": {
+            "type": "boolean",
+            "description": "Trạng thái hoạt động"
+          },
+          "effectiveFrom": {
+            "type": "string",
+            "description": "Ngày bắt đầu áp dụng đơn giá mới"
+          }
+        }
+      },
+      "OccupantDto": {
+        "type": "object",
+        "properties": {
+          "fullName": {
+            "type": "string",
+            "description": "Họ tên người ở cùng",
+            "example": "Trần Thị B"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Số điện thoại",
+            "example": "0901234567"
+          },
+          "idCard": {
+            "type": "string",
+            "description": "Số CCCD/CMND",
+            "example": "012345678901"
+          },
+          "relationship": {
+            "type": "string",
+            "description": "Mối quan hệ",
+            "example": "Bạn cùng phòng"
+          }
+        },
+        "required": [
+          "fullName",
+          "phone"
+        ]
+      },
+      "ServiceSubscriptionDto": {
+        "type": "object",
+        "properties": {
+          "serviceId": {
+            "type": "string",
+            "description": "ID Dịch vụ đăng ký",
+            "example": "64f8a..."
+          },
+          "quantity": {
+            "type": "number",
+            "description": "Số lượng sử dụng (mặc định 1)",
+            "default": 1
+          },
+          "unitPriceOverride": {
+            "type": "number",
+            "description": "Đơn giá đặc thù thỏa thuận riêng cho phòng này"
+          }
+        },
+        "required": [
+          "serviceId"
+        ]
+      },
+      "CreateContractDto": {
+        "type": "object",
+        "properties": {
+          "propertyId": {
+            "type": "string",
+            "example": "PROP123...",
+            "description": "Property ID"
+          },
+          "roomId": {
+            "type": "string",
+            "example": "ROOM123...",
+            "description": "Room ID"
+          },
+          "primaryTenantId": {
+            "type": "string",
+            "example": "TENANT123...",
+            "description": "ID khách thuê chính"
+          },
+          "tenantId": {
+            "type": "string",
+            "example": "TENANT123...",
+            "description": "Alias của primaryTenantId"
+          },
+          "occupants": {
+            "description": "Danh sách người ở cùng",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OccupantDto"
+            }
+          },
+          "startDate": {
+            "type": "string",
+            "example": "2026-11-01",
+            "description": "Ngày bắt đầu hợp đồng"
+          },
+          "endDate": {
+            "type": "string",
+            "example": "2027-11-01",
+            "description": "Ngày kết thúc hợp đồng"
+          },
+          "dueDay": {
+            "type": "number",
+            "example": 5,
+            "default": 5,
+            "description": "Ngày đóng tiền hàng tháng (1-31)"
+          },
+          "billingCycleDay": {
+            "type": "number",
+            "example": 5,
+            "description": "Alias của dueDay"
+          },
+          "rent": {
+            "type": "number",
+            "example": 3500000,
+            "description": "Tiền thuê hàng tháng (VND)"
+          },
+          "rentalPrice": {
+            "type": "number",
+            "example": 3500000,
+            "description": "Alias của rent"
+          },
+          "depositAmount": {
+            "type": "number",
+            "example": 3500000,
+            "description": "Tiền đặt cọc (VND)"
+          },
+          "serviceSubscriptions": {
+            "description": "Dịch vụ đăng ký sử dụng",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ServiceSubscriptionDto"
+            }
+          },
+          "terms": {
+            "type": "string",
+            "example": "Thanh toán tiền phòng từ ngày 1-5 hàng tháng"
+          },
+          "attachmentIds": {
+            "description": "Danh sách ID tài liệu/file đính kèm",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "notes": {
+            "type": "string",
+            "example": "Hop dong ky truc tiep"
+          }
+        },
+        "required": [
+          "propertyId",
+          "roomId",
+          "startDate",
+          "endDate"
+        ]
+      },
+      "NewTenantInfoDto": {
+        "type": "object",
+        "properties": {
+          "fullName": {
+            "type": "string",
+            "example": "Nguyễn Văn Minh"
+          },
+          "phone": {
+            "type": "string",
+            "example": "0988776655"
+          },
+          "cccdNumber": {
+            "type": "string",
+            "example": "079201001234"
+          },
+          "email": {
+            "type": "string",
+            "example": "minh.nguyen@example.com"
+          }
+        },
+        "required": [
+          "fullName",
+          "phone",
+          "cccdNumber"
+        ]
+      },
+      "InitialMeterReadingDto": {
+        "type": "object",
+        "properties": {
+          "electricity": {
+            "type": "number",
+            "description": "Chỉ số điện đầu kỳ (kWh)",
+            "example": 1250
+          },
+          "water": {
+            "type": "number",
+            "description": "Chỉ số nước đầu kỳ (m3)",
+            "example": 85
+          }
+        },
+        "required": [
+          "electricity",
+          "water"
+        ]
+      },
+      "MoveInDto": {
+        "type": "object",
+        "properties": {
+          "propertyId": {
+            "type": "string",
+            "description": "ID Bất động sản"
+          },
+          "roomId": {
+            "type": "string",
+            "description": "ID Phòng trọ"
+          },
+          "tenantId": {
+            "type": "string",
+            "description": "ID khách thuê nếu chọn tenant đã tồn tại"
+          },
+          "newTenant": {
+            "description": "Thông tin tạo mới tenant nếu là khách thuê mới",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/NewTenantInfoDto"
+              }
+            ]
+          },
+          "occupants": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OccupantDto"
+            }
+          },
+          "startDate": {
+            "type": "string",
+            "example": "2026-10-10"
+          },
+          "endDate": {
+            "type": "string",
+            "example": "2027-10-10"
+          },
+          "dueDay": {
+            "type": "number",
+            "default": 5
+          },
+          "rent": {
+            "type": "number",
+            "example": 4500000,
+            "description": "Tiền thuê tháng"
+          },
+          "depositAmount": {
+            "type": "number",
+            "example": 4500000,
+            "description": "Tiền đặt cọc ban đầu"
+          },
+          "initialMeterReading": {
+            "description": "Chỉ số đồng hồ điện nước đầu kỳ (LOCKED)",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/InitialMeterReadingDto"
+              }
+            ]
+          },
+          "serviceSubscriptions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ServiceSubscriptionDto"
+            }
+          },
+          "terms": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "propertyId",
+          "roomId",
+          "startDate",
+          "endDate",
+          "rent",
+          "depositAmount",
+          "initialMeterReading"
+        ]
+      },
+      "UpdateContractDto": {
+        "type": "object",
+        "properties": {
+          "occupants": {
+            "description": "Cập nhật danh sách người ở cùng",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OccupantDto"
+            }
+          },
+          "dueDay": {
+            "type": "number",
+            "example": 5,
+            "description": "Ngày thu tiền hàng tháng (1-31)"
+          },
+          "terms": {
+            "type": "string",
+            "description": "Điều khoản phi tài chính"
+          },
+          "attachmentIds": {
+            "description": "Danh sách ID file đính kèm",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "notes": {
+            "type": "string",
+            "description": "Ghi chú hợp đồng"
+          }
+        }
+      },
+      "CreateContractRevisionDto": {
+        "type": "object",
+        "properties": {
+          "reason": {
+            "type": "string",
+            "description": "Lý do điều chỉnh (bắt buộc)",
+            "example": "Nâng cấp máy lạnh và tăng giá điện"
+          },
+          "effectiveFrom": {
+            "type": "string",
+            "description": "Ngày bắt đầu áp dụng thay đổi (mặc định hôm nay)",
+            "example": "2026-12-01"
+          },
+          "rent": {
+            "type": "number",
+            "description": "Giá thuê mới (VND)",
+            "example": 4000000
+          },
+          "terms": {
+            "type": "string",
+            "description": "Điều khoản mới"
+          },
+          "serviceSubscriptions": {
+            "description": "Danh sách dịch vụ đăng ký mới",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ServiceSubscriptionDto"
+            }
+          }
+        },
+        "required": [
+          "reason"
+        ]
+      },
+      "TerminateContractDto": {
+        "type": "object",
+        "properties": {
+          "reason": {
+            "type": "string",
+            "example": "Khach tra phong som chuyen cong tac",
+            "description": "Lý do chấm dứt hợp đồng"
+          }
+        },
+        "required": [
+          "reason"
+        ]
+      },
+      "RenewContractDto": {
+        "type": "object",
+        "properties": {
+          "newEndDate": {
+            "type": "string",
+            "example": "2028-11-01",
+            "description": "Ngày kết thúc mới của hợp đồng gia hạn"
+          },
+          "reason": {
+            "type": "string",
+            "description": "Lý do gia hạn",
+            "example": "Gia hạn thêm 1 năm"
+          },
+          "rent": {
+            "type": "number",
+            "description": "Giá thuê mới nếu có điều chỉnh",
+            "example": 3800000
+          }
+        },
+        "required": [
+          "newEndDate"
+        ]
+      },
+      "RecordDepositDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "COLLECTED",
+              "DEDUCTED",
+              "REFUNDED"
+            ],
+            "example": "COLLECTED"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Số tiền biến động (VND)",
+            "example": 3500000
+          },
+          "date": {
+            "type": "string",
+            "description": "Ngày giao dịch",
+            "example": "2026-10-09"
+          },
+          "reason": {
+            "type": "string",
+            "description": "Lý do / mục đích",
+            "example": "Thu tiền cọc đợt 1"
+          },
+          "note": {
+            "type": "string",
+            "description": "Ghi chú thêm"
+          }
+        },
+        "required": [
+          "type",
+          "amount"
+        ]
+      },
+      "FinalMeterReadingDto": {
+        "type": "object",
+        "properties": {
+          "electricity": {
+            "type": "number",
+            "example": 1350
+          },
+          "water": {
+            "type": "number",
+            "example": 92
+          }
+        },
+        "required": [
+          "electricity",
+          "water"
+        ]
+      },
+      "AdditionalChargeItemDto": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string",
+            "example": "Bồi thường mất chìa khóa cổng và làm vỡ bóng đèn"
+          },
+          "amount": {
+            "type": "number",
+            "example": 250000
+          }
+        },
+        "required": [
+          "description",
+          "amount"
+        ]
+      },
+      "MoveOutPreviewDto": {
+        "type": "object",
+        "properties": {
+          "moveOutDate": {
+            "type": "string",
+            "example": "2026-10-25",
+            "description": "Ngày trả phòng thực tế"
+          },
+          "finalMeterReading": {
+            "$ref": "#/components/schemas/FinalMeterReadingDto"
+          },
+          "additionalCharges": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AdditionalChargeItemDto"
+            }
+          }
+        },
+        "required": [
+          "moveOutDate"
+        ]
+      },
+      "MoveOutDto": {
+        "type": "object",
+        "properties": {
+          "moveOutDate": {
+            "type": "string",
+            "example": "2026-10-25",
+            "description": "Ngày trả phòng thực tế"
+          },
+          "finalMeterReading": {
+            "$ref": "#/components/schemas/FinalMeterReadingDto"
+          },
+          "additionalCharges": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AdditionalChargeItemDto"
+            }
+          },
+          "reason": {
+            "type": "string",
+            "example": "Khách hết hạn hợp đồng về quê"
+          },
+          "settleDeposit": {
+            "type": "boolean",
+            "default": true,
+            "description": "Tự động hạch toán hoàn cọc / trừ cọc"
+          }
+        },
+        "required": [
+          "moveOutDate"
+        ]
+      },
+      "CreateMeterDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "ELECTRIC",
+              "WATER"
+            ],
+            "example": "ELECTRIC"
+          },
+          "serialNo": {
+            "type": "string",
+            "description": "Số seri công tơ",
+            "example": "EM-2026-0012"
+          },
+          "multiplier": {
+            "type": "number",
+            "description": "Hệ số nhân (mặc định 1)",
+            "default": 1
+          },
+          "initialValue": {
+            "type": "number",
+            "description": "Chỉ số ban đầu khi lắp đặt",
+            "default": 0
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ACTIVE",
+              "INACTIVE",
+              "REPLACED"
+            ],
+            "default": "ACTIVE"
+          }
+        },
+        "required": [
+          "type",
+          "serialNo"
+        ]
+      },
+      "UpdateMeterDto": {
+        "type": "object",
+        "properties": {
+          "serialNo": {
+            "type": "string",
+            "description": "Số seri mới"
+          },
+          "multiplier": {
+            "type": "number",
+            "description": "Hệ số nhân mới"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ACTIVE",
+              "INACTIVE",
+              "REPLACED"
+            ]
+          }
+        }
+      },
+      "UpdateMeterReadingDto": {
+        "type": "object",
+        "properties": {
+          "currentValue": {
+            "type": "number",
+            "description": "Chỉ số mới hiện tại ghi nhận",
+            "example": 1250
+          },
+          "flags": {
+            "type": "array",
+            "description": "Cờ đặc biệt (ROLLOVER nếu công tơ quay vòng, METER_REPLACED nếu thay công tơ)",
+            "items": {
+              "type": "string",
+              "enum": [
+                "ABNORMAL",
+                "ROLLOVER",
+                "METER_REPLACED"
+              ]
+            }
+          },
+          "adjustment": {
+            "type": "number",
+            "description": "Số lượng điều chỉnh (Vd: bù vòng quay hoặc bù công tơ cũ)",
+            "default": 0
+          },
+          "adjustmentReason": {
+            "type": "string",
+            "description": "Lý do điều chỉnh (bắt buộc nếu có adjustment hoặc thay công tơ)"
+          },
+          "photoAttachmentId": {
+            "type": "string",
+            "description": "ID ảnh chụp đồng hồ đính kèm"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "MANUAL",
+              "IMPORT",
+              "OCR"
+            ],
+            "default": "MANUAL"
+          }
+        },
+        "required": [
+          "currentValue"
+        ]
+      },
+      "BatchMeterReadingItemDto": {
+        "type": "object",
+        "properties": {
+          "meterId": {
+            "type": "string",
+            "description": "ID công tơ"
+          },
+          "roomId": {
+            "type": "string",
+            "description": "ID phòng"
+          },
+          "currentValue": {
+            "type": "number",
+            "description": "Chỉ số ghi nhận mới"
+          },
+          "flags": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "ABNORMAL",
+                "ROLLOVER",
+                "METER_REPLACED"
+              ]
+            }
+          },
+          "adjustment": {
+            "type": "number",
+            "default": 0
+          },
+          "adjustmentReason": {
+            "type": "string"
+          },
+          "photoAttachmentId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "meterId",
+          "roomId",
+          "currentValue"
+        ]
+      },
+      "BatchMeterReadingsDto": {
+        "type": "object",
+        "properties": {
+          "propertyId": {
+            "type": "string",
+            "description": "ID Bất động sản"
+          },
+          "period": {
+            "type": "string",
+            "description": "Kỳ chốt số (YYYY-MM)",
+            "example": "2026-10"
+          },
+          "readings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BatchMeterReadingItemDto"
+            }
+          }
+        },
+        "required": [
+          "propertyId",
+          "period",
+          "readings"
+        ]
+      },
+      "LockMeterReadingsDto": {
+        "type": "object",
+        "properties": {
+          "propertyId": {
+            "type": "string",
+            "description": "ID Bất động sản cần khóa số"
+          },
+          "period": {
+            "type": "string",
+            "description": "Kỳ chốt số cần khóa (YYYY-MM)",
+            "example": "2026-10"
+          }
+        },
+        "required": [
+          "propertyId",
+          "period"
+        ]
+      },
+      "ImportMeterReadingRowDto": {
+        "type": "object",
+        "properties": {
+          "roomCode": {
+            "type": "string",
+            "example": "101",
+            "description": "Mã phòng"
+          },
+          "meterType": {
+            "type": "string",
+            "enum": [
+              "ELECTRIC",
+              "WATER"
+            ],
+            "example": "ELECTRIC"
+          },
+          "serialNo": {
+            "type": "string",
+            "example": "EM-2026-001"
+          },
+          "currentValue": {
+            "type": "number",
+            "example": 1250,
+            "description": "Chỉ số mới"
+          },
+          "adjustment": {
+            "type": "number",
+            "default": 0
+          },
+          "adjustmentReason": {
+            "type": "string"
+          },
+          "isRollover": {
+            "type": "boolean",
+            "description": "Đánh dấu công tơ quay vòng (9999 -> 0020)"
+          },
+          "isReplaced": {
+            "type": "boolean",
+            "description": "Đánh dấu thay công tơ mới"
+          }
+        },
+        "required": [
+          "roomCode",
+          "meterType",
+          "currentValue"
+        ]
+      },
+      "ImportMeterReadingsDto": {
+        "type": "object",
+        "properties": {
+          "propertyId": {
+            "type": "string",
+            "description": "ID Bất động sản"
+          },
+          "period": {
+            "type": "string",
+            "description": "Kỳ chốt số (YYYY-MM)",
+            "example": "2026-10"
+          },
+          "rows": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ImportMeterReadingRowDto"
+            }
+          },
+          "commit": {
+            "type": "boolean",
+            "description": "Chế độ lưu: true = commit ghi vào database, false = preview kiểm tra lỗi từng dòng",
+            "default": false
+          }
+        },
+        "required": [
+          "propertyId",
+          "period",
+          "rows"
+        ]
+      },
+      "RecordMeterReadingDto": {
+        "type": "object",
+        "properties": {
+          "roomId": {
+            "type": "string",
+            "example": "ROOM123...",
+            "description": "Room ID"
+          },
+          "billingPeriod": {
+            "type": "string",
+            "example": "2026-10",
+            "description": "Billing period in format YYYY-MM"
+          },
+          "electricityOld": {
+            "type": "number",
+            "example": 1200,
+            "description": "Previous electricity meter reading"
+          },
+          "electricityNew": {
+            "type": "number",
+            "example": 1350,
+            "description": "Current electricity meter reading"
+          },
+          "waterOld": {
+            "type": "number",
+            "example": 50,
+            "description": "Previous water meter reading"
+          },
+          "waterNew": {
+            "type": "number",
+            "example": 62,
+            "description": "Current water meter reading"
+          }
+        },
+        "required": [
+          "roomId",
+          "billingPeriod",
+          "electricityOld",
+          "electricityNew",
+          "waterOld",
+          "waterNew"
+        ]
+      },
+      "CreateBillingPeriodDto": {
+        "type": "object",
+        "properties": {
+          "propertyId": {
+            "type": "string",
+            "description": "ID Bất động sản / Khu trọ"
+          },
+          "period": {
+            "type": "string",
+            "description": "Kỳ tính phí dạng YYYY-MM",
+            "example": "2026-10"
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Ngày bắt đầu tính phí (mặc định ngày 1 của tháng)"
+          },
+          "endDate": {
+            "type": "string",
+            "description": "Ngày kết thúc tính phí (mặc định ngày cuối của tháng)"
+          },
+          "notes": {
+            "type": "string",
+            "description": "Ghi chú thêm"
+          }
+        },
+        "required": [
+          "propertyId",
+          "period"
+        ]
+      },
+      "CloseBillingPeriodDto": {
+        "type": "object",
+        "properties": {
+          "notes": {
+            "type": "string",
+            "description": "Ghi chú khi đóng kỳ"
+          }
+        }
+      },
+      "GenerateInvoicesDto": {
+        "type": "object",
+        "properties": {
+          "batchSize": {
+            "type": "number",
+            "description": "Kích thước lô xử lý chia nhỏ (mặc định 50)",
+            "default": 50
+          }
+        }
+      },
+      "CustomInvoiceItemDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "RENT",
+              "ELECTRICITY",
+              "WATER",
+              "SERVICE",
+              "OTHER"
+            ],
+            "example": "SERVICE"
+          },
+          "description": {
+            "type": "string",
+            "example": "Phi ve sinh va gui xe"
+          },
+          "quantity": {
+            "type": "number",
+            "example": 1
+          },
+          "unitPrice": {
+            "type": "number",
+            "example": 150000,
+            "description": "Unit price in integer VND"
+          }
+        },
+        "required": [
+          "type",
+          "description",
+          "quantity",
+          "unitPrice"
+        ]
+      },
+      "GenerateInvoiceDto": {
+        "type": "object",
+        "properties": {
+          "contractId": {
+            "type": "string",
+            "example": "CONTRACT123...",
+            "description": "Active Contract ID"
+          },
+          "billingPeriodId": {
+            "type": "string",
+            "example": "2026-10",
+            "description": "Billing period (YYYY-MM)"
+          },
+          "discount": {
+            "type": "number",
+            "example": 0,
+            "description": "Discount in integer VND"
+          },
+          "additionalItems": {
+            "description": "Additional custom line items (parking, cleaning, repair, etc.)",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomInvoiceItemDto"
+            }
+          },
+          "notes": {
+            "type": "string",
+            "example": "Tien phong thang 10"
+          }
+        },
+        "required": [
+          "contractId",
+          "billingPeriodId"
+        ]
+      },
+      "BatchIssueInvoicesDto": {
+        "type": "object",
+        "properties": {
+          "invoiceIds": {
+            "description": "Danh sách ID hóa đơn cần phát hành",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "propertyId": {
+            "type": "string",
+            "description": "Phát hành toàn bộ theo Khu trọ"
+          },
+          "billingPeriodId": {
+            "type": "string",
+            "description": "Kỳ tính phí YYYY-MM"
+          }
+        }
+      },
+      "UpdateInvoiceDto": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "description": "Cập nhật danh sách mục thu bổ sung",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomInvoiceItemDto"
+            }
+          },
+          "discount": {
+            "type": "number",
+            "example": 50000,
+            "description": "Giảm giá (VND)"
+          },
+          "dueDate": {
+            "type": "string",
+            "description": "Hạn thanh toán mới"
+          },
+          "notes": {
+            "type": "string",
+            "description": "Ghi chú thêm"
+          }
+        }
+      },
+      "CancelInvoiceDto": {
+        "type": "object",
+        "properties": {
+          "reason": {
+            "type": "string",
+            "example": "Nhap sai chi so dong ho dien nuoc",
+            "description": "Mandatory reason for cancellation"
+          }
+        },
+        "required": [
+          "reason"
+        ]
+      },
+      "CreatePaymentDto": {
+        "type": "object",
+        "properties": {
+          "invoiceId": {
+            "type": "string",
+            "example": "INV123...",
+            "description": "Invoice ID to settle"
+          },
+          "amount": {
+            "type": "number",
+            "example": 4250000,
+            "description": "Amount paid in integer VND"
+          },
+          "paymentMethod": {
+            "type": "string",
+            "enum": [
+              "BANK_TRANSFER",
+              "CASH",
+              "QR"
+            ],
+            "example": "BANK_TRANSFER",
+            "description": "Payment method (CASH | BANK_TRANSFER)"
+          },
+          "transactionReference": {
+            "type": "string",
+            "example": "FT2394829348",
+            "description": "Bank transfer reference number or transaction code"
+          },
+          "notes": {
+            "type": "string",
+            "example": "Khach chuyen khoan Vietcombank"
+          }
+        },
+        "required": [
+          "invoiceId",
+          "amount",
+          "paymentMethod"
+        ]
+      },
+      "RejectPaymentDto": {
+        "type": "object",
+        "properties": {
+          "reason": {
+            "type": "string",
+            "example": "Không tìm thấy tiền vào tài khoản ngân hàng",
+            "description": "Lý do từ chối"
+          }
+        },
+        "required": [
+          "reason"
+        ]
+      },
+      "VoidPaymentDto": {
+        "type": "object",
+        "properties": {
+          "reason": {
+            "type": "string",
+            "example": "Ghi nhầm phiếu thu",
+            "description": "Lý do hủy thanh toán (bắt buộc)"
+          }
+        },
+        "required": [
+          "reason"
+        ]
+      },
+      "CreatePaymentClaimDto": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "example": 4250000,
+            "description": "Số tiền khách đã chuyển khoản (VND)"
+          },
+          "paymentMethod": {
+            "type": "string",
+            "enum": [
+              "BANK_TRANSFER",
+              "CASH",
+              "QR"
+            ],
+            "default": "BANK_TRANSFER",
+            "description": "Hình thức thanh toán"
+          },
+          "transactionReference": {
+            "type": "string",
+            "example": "FT2394829348",
+            "description": "Mã giao dịch ngân hàng"
+          },
+          "proofAttachmentId": {
+            "type": "string",
+            "description": "ID ảnh chụp biên lai chuyển tiền"
+          },
+          "notes": {
+            "type": "string",
+            "example": "Đã chuyển khoản qua app MB Bank"
+          }
+        },
+        "required": [
+          "amount"
+        ]
+      },
+      "CreateMaintenanceRequestDto": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "example": "PLUMBING",
+            "description": "Category of maintenance issue"
+          },
+          "title": {
+            "type": "string",
+            "example": "Vòi nước bồn rửa mặt bị rò rỉ",
+            "description": "Short title"
+          },
+          "description": {
+            "type": "string",
+            "example": "Vòi nước bị rỉ liên tục từ tối qua, nước chảy nhiều ở chân vòi.",
+            "description": "Detailed description of the problem"
+          },
+          "priority": {
+            "type": "string",
+            "enum": [
+              "LOW",
+              "NORMAL",
+              "HIGH",
+              "URGENT"
+            ],
+            "default": "NORMAL",
+            "description": "Priority level"
+          },
+          "attachmentIds": {
+            "description": "List of uploaded attachment IDs illustrating the problem",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "category",
+          "title",
+          "description"
+        ]
+      },
+      "MaintenanceCostDto": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "example": 150000,
+            "description": "Cost amount in VND"
+          },
+          "paidBy": {
+            "type": "string",
+            "example": "LANDLORD",
+            "enum": [
+              "LANDLORD",
+              "TENANT",
+              "SHARED"
+            ],
+            "description": "Who pays the maintenance cost"
+          }
+        },
+        "required": [
+          "amount",
+          "paidBy"
+        ]
+      },
+      "TransitionMaintenanceDto": {
+        "type": "object",
+        "properties": {
+          "to": {
+            "type": "string",
+            "enum": [
+              "ACCEPTED",
+              "IN_PROGRESS",
+              "RESOLVED",
+              "REJECTED"
+            ],
+            "description": "Target status to transition to"
+          },
+          "note": {
+            "type": "string",
+            "example": "Đã hẹn thợ nước đến sửa chiều nay"
+          },
+          "cost": {
+            "$ref": "#/components/schemas/MaintenanceCostDto"
+          }
+        },
+        "required": [
+          "to"
+        ]
+      },
+      "TenantActionDto": {
+        "type": "object",
+        "properties": {
+          "note": {
+            "type": "string",
+            "example": "Đã kiểm tra vòi nước hoạt động tốt"
+          }
+        }
+      },
+      "CreateMaintenanceMessageDto": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string",
+            "example": "Thợ nước vừa báo sẽ tới lúc 14:00 ạ"
+          },
+          "attachmentIds": {
+            "description": "Attached files/photos for this message",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "content"
+        ]
+      },
+      "PresignAttachmentDto": {
+        "type": "object",
+        "properties": {
+          "filename": {
+            "type": "string",
+            "description": "File name including extension",
+            "example": "water_leak.jpg"
+          },
+          "mimeType": {
+            "type": "string",
+            "description": "MIME content type",
+            "example": "image/jpeg"
+          },
+          "size": {
+            "type": "number",
+            "description": "File size in bytes",
+            "example": 1048576
+          },
+          "entityType": {
+            "type": "string",
+            "description": "Entity type related to this attachment",
+            "example": "MAINTENANCE_REQUEST",
+            "enum": [
+              "MAINTENANCE_REQUEST",
+              "INVOICE",
+              "PAYMENT",
+              "CONTRACT",
+              "METER_READING"
+            ]
+          },
+          "entityId": {
+            "type": "string",
+            "description": "Entity ID related to this attachment",
+            "example": "60d0fe4f5311236168a109ca"
+          }
+        },
+        "required": [
+          "filename",
+          "mimeType",
+          "size"
+        ]
+      },
+      "PresignAttachmentResponseDto": {
+        "type": "object",
+        "properties": {
+          "attachmentId": {
+            "type": "string",
+            "example": "60d0fe4f5311236168a109ca"
+          },
+          "uploadUrl": {
+            "type": "string",
+            "example": "https://s3.amazonaws.com/..."
+          },
+          "fileKey": {
+            "type": "string",
+            "example": "org-id/attachments/water_leak.jpg"
+          }
+        },
+        "required": [
+          "attachmentId",
+          "uploadUrl",
+          "fileKey"
+        ]
+      },
+      "AttachmentUrlResponseDto": {
+        "type": "object",
+        "properties": {
+          "attachmentId": {
+            "type": "string",
+            "example": "60d0fe4f5311236168a109ca"
+          },
+          "filename": {
+            "type": "string",
+            "example": "water_leak.jpg"
+          },
+          "mimeType": {
+            "type": "string",
+            "example": "image/jpeg"
+          },
+          "size": {
+            "type": "number",
+            "example": 1048576
+          },
+          "downloadUrl": {
+            "type": "string",
+            "example": "https://s3.amazonaws.com/..."
+          },
+          "url": {
+            "type": "string",
+            "example": "https://s3.amazonaws.com/..."
+          },
+          "expiresIn": {
+            "type": "number",
+            "example": 900
+          }
+        },
+        "required": [
+          "attachmentId",
+          "filename",
+          "mimeType",
+          "size",
+          "downloadUrl",
+          "url",
+          "expiresIn"
+        ]
+      },
+      "BroadcastNotificationDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "Thông báo cắt điện bảo trì tòa nhà"
+          },
+          "body": {
+            "type": "string",
+            "example": "Điện lực sẽ cắt điện từ 8h00 đến 12h00 ngày 15/10 để bảo dưỡng trạm biến áp."
+          },
+          "targetType": {
+            "type": "string",
+            "enum": [
+              "ALL",
+              "PROPERTY",
+              "ROOM"
+            ],
+            "example": "ALL",
+            "description": "Target audience: ALL, PROPERTY, or ROOM"
+          },
+          "propertyId": {
+            "type": "string",
+            "example": "60d0fe4f5311236168a109ca",
+            "description": "Property ID if targetType is PROPERTY"
+          },
+          "roomId": {
+            "type": "string",
+            "example": "60d0fe4f5311236168a109cb",
+            "description": "Room ID if targetType is ROOM"
+          }
+        },
+        "required": [
+          "title",
+          "body",
+          "targetType"
+        ]
+      },
+      "ExportReportDto": {
+        "type": "object",
+        "properties": {
+          "format": {
+            "type": "string",
+            "enum": [
+              "EXCEL",
+              "PDF"
+            ],
+            "default": "EXCEL",
+            "description": "Export file format"
+          },
+          "propertyId": {
+            "type": "string",
+            "example": "60d0fe4f5311236168a109ca"
+          },
+          "from": {
+            "type": "string",
+            "example": "2026-01-01"
+          },
+          "to": {
+            "type": "string",
+            "example": "2026-12-31"
+          },
+          "period": {
+            "type": "string",
+            "example": "2026-10"
+          }
+        }
+      }
+    }
+  }
+}
